@@ -1,0 +1,19 @@
+{
+  "name": "com.jagapippi.layer2",
+  "version": "1.0.0",
+  "displayName": "Layer2",
+  "unity": "2021.3",
+  "author": {
+    "name": "su10",
+    "url": "https://github.com/su10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/su10/Layer2"
+  },
+  "keywords": [
+    "layer",
+    "physics"
+  ],
+  "license": "MIT License"
+}
