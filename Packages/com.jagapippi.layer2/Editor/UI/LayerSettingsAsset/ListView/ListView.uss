@@ -1,0 +1,22 @@
+#unity-list-view__reorderable-item__container {
+    padding-left: 5px;
+}
+
+#list-view-item {
+    flex-direction: row;
+}
+
+#list-view-item TextField {
+    width: 65%;
+    margin: 0;
+}
+
+#list-view-item TextField > Label {
+    width: 90px;
+    min-width: 90px;
+}
+
+#list-view-item MaskField {
+    width: 35%;
+    margin: 0;
+}
