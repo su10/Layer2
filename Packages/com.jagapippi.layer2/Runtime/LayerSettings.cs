@@ -41,5 +41,31 @@ namespace Jagapippi.Layer2
             new("", 30),
             new("", 31),
         };
+
+        public string LayerToName(int layer) => _layers[layer];
+
+        public int NameToLayer(string name)
+        {
+            name ??= string.Empty;
+
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                var layerName = _layers[i].name;
+
+                if (name == layerName) return i;
+            }
+
+            return -1;
+        }
+
+        public bool GetCollision(int layer1, int layer2)
+        {
+            var a = _layers[layer1].GetCollision(layer2);
+            var b = _layers[layer2].GetCollision(layer1);
+
+            if (a != b) throw new DataInconsistencyException();
+
+            return a;
+        }
     }
 }
