@@ -1,0 +1,84 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" xmlns:l2e="Jagapippi.Layer2.Editor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.jagapippi.layer2/Editor/UI/LayerSettingsAsset/MatrixView/MatrixView.uss?fileID=7433441132597879392&amp;guid=f2003a35ba76b44f9a559aa5a0254001&amp;type=3#MatrixView" />
+    <ui:GroupBox name="layer-collision-matrix" view-data-key="layer-collision-matrix">
+        <ui:GroupBox name="horizontal-group" style="flex-direction: row;">
+            <ui:VisualElement name="left-labels" style="justify-content: flex-end; align-items: flex-end; flex-shrink: 0; translate: 0 -20px;">
+                <ui:Label enable-rich-text="false" text="Default" />
+                <ui:Label enable-rich-text="false" text="TransparentFX" />
+                <ui:Label enable-rich-text="false" text="Ignore Raycast" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" text="Water" />
+                <ui:Label enable-rich-text="false" text="UI" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+                <ui:Label enable-rich-text="false" />
+            </ui:VisualElement>
+            <ui:GroupBox name="right-group" class="Label" style="padding-left: 0; margin-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; align-items: flex-start;">
+                <ui:GroupBox name="top-labels" style="justify-content: flex-end; align-items: flex-end; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 88px;">
+                    <ui:GroupBox style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; rotate: 90deg; -unity-text-align: upper-right; white-space: nowrap; align-items: flex-end; justify-content: space-around; transform-origin: left bottom; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 0;">
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" text="Default" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" text="TransparentFX" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" text="Ignore Raycast" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" text="Water" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" text="UI" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                        <ui:Label display-tooltip-when-elided="true" enable-rich-text="false" />
+                    </ui:GroupBox>
+                </ui:GroupBox>
+                <l2e:CollisionMatrix />
+                <ui:GroupBox name="button-group" style="flex-direction: row; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
+                    <ui:Button text="Disable All" display-tooltip-when-elided="true" name="disable-all-button" enable-rich-text="false" />
+                    <ui:Button text="Enable All" display-tooltip-when-elided="true" name="enable-all-button" enable-rich-text="false" />
+                </ui:GroupBox>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>

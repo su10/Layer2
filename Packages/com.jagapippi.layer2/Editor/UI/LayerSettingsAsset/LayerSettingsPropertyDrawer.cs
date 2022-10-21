@@ -31,6 +31,7 @@ namespace Jagapippi.Layer2.Editor
 
             var root = Assets.CreateContainer();
             root.Q<Foldout>("list-view-foldout").contentContainer.Add(ListViewDrawer.CreateGUI(property));
+            root.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(property));
             root.Q<Button>("apply-button").clicked += () =>
             {
                 layerSettings.ApplyCollisionMatrix();
