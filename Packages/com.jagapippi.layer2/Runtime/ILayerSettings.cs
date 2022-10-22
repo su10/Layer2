@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace Jagapippi.Layer2
         string LayerToName(int layer);
         int NameToLayer(string name);
         bool GetCollision(int layer1, int layer2);
+#if UNITY_EDITOR
+        event Action<ILayerSettings> changed;
+#endif
     }
 
     public static class ILayerSettingsExtensions

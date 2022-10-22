@@ -4,7 +4,10 @@ using UnityEngine;
 namespace Jagapippi.Layer2
 {
     [Serializable]
-    public class LayerSettings
+    public class LayerSettings : ILayerSettings
+#if UNITY_EDITOR
+        , ISerializationCallbackReceiver
+#endif
     {
         [SerializeField] internal SerializableLayer[] _layers =
         {
@@ -42,6 +45,8 @@ namespace Jagapippi.Layer2
             new("", 31),
         };
 
+        #region ILayerSettings
+
         public string LayerToName(int layer) => _layers[layer];
 
         public int NameToLayer(string name)
@@ -67,5 +72,25 @@ namespace Jagapippi.Layer2
 
             return a;
         }
+
+#if UNITY_EDITOR
+        public event Action<ILayerSettings> changed;
+#endif
+
+        #endregion
+
+#if UNITY_EDITOR
+
+        #region ISerializationCallbackReceiver
+
+        public void OnBeforeSerialize() => changed?.Invoke(this);
+
+        public void OnAfterDeserialize()
+        {
+        }
+
+        #endregion
+
+#endif
     }
 }

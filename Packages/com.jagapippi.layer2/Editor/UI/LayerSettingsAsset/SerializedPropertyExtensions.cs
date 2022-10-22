@@ -49,6 +49,11 @@ namespace Jagapippi.Layer2.Editor
             return layerProperty.FindPropertyRelative(nameof(SerializableLayer._collisionMatrix));
         }
 
+        public static SerializedProperty FindValueProperty(this SerializedProperty layer2MaskProperty)
+        {
+            return layer2MaskProperty.FindPropertyRelative(nameof(Layer2Mask._value));
+        }
+
         public static SerializedProperty FindParentProperty(this SerializedProperty self)
         {
             var paths = self.propertyPath.Split(".");
