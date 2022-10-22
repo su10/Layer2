@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using UnityEditor;
 using UnityEngine;
@@ -38,6 +39,24 @@ namespace Jagapippi.Layer2.Editor
                 {
                     var selected = EditorGUILayout.Popup(LabelText, gameObject.layer, displayedOptions);
                     return (selected < Layer.MaxCount) ? selected : -1;
+                }
+            }
+        }
+
+        private static void GetNamesWithIndexNonAlloc(this ILayerSettings settings, IList<string> list)
+        {
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                var layerName = settings.LayerToName(i);
+
+                if (string.IsNullOrEmpty(layerName) || string.IsNullOrWhiteSpace(layerName))
+                {
+                    list[i] = "";
+                }
+                else
+                {
+                    // SEE: https://qiita.com/su10/items/ab33adefda8c2f7423e3
+                    list[i] = $"{i}: {layerName}".Replace(" ", "\u00A0");
                 }
             }
         }
