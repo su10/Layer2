@@ -41,6 +41,14 @@ namespace Jagapippi.Layer2
             }
         }
 
+        internal static void GetNamesWithIndexNonAlloc(this ILayerSettings settings, IList<string> list)
+        {
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                list[i] = $"{i}: {settings.LayerToName(i)}";
+            }
+        }
+
         public static void ApplyCollisionMatrix(this ILayerSettings settings)
         {
             for (var i = 0; i < Layer.MaxCount; i++)
