@@ -38,11 +38,11 @@ namespace Jagapippi.Layer2
                     var _ = new GameObject(nameof(LayerManager), typeof(LayerManager));
                 }
 
-                return Layer2Core.currentSettings;
+                return LayerSettingsSelection.current;
             }
         }
 
-        public static void ApplySettings(ILayerSettings settings) => Layer2Core.SetCurrentSettings(settings);
+        public static void ApplySettings(ILayerSettings settings) => LayerSettingsSelection.SetCurrent(settings);
         private static void ApplySettings() => ApplySettings(_instance ? _instance._settingsAsset : null);
 
         [SerializeField] private LayerSettingsAsset _settingsAsset;
@@ -113,7 +113,7 @@ namespace Jagapippi.Layer2
         void OnEnable()
         {
 #if UNITY_EDITOR
-            Layer2Core.settingsChanged += OnLayer2CoreSettingsChanged;
+            LayerSettingsSelection.changed += OnLayer2CoreSettingsChanged;
 #endif
             ApplySettings();
         }
@@ -121,7 +121,7 @@ namespace Jagapippi.Layer2
         void OnDisable()
         {
 #if UNITY_EDITOR
-            Layer2Core.settingsChanged -= OnLayer2CoreSettingsChanged;
+            LayerSettingsSelection.changed -= OnLayer2CoreSettingsChanged;
 #endif
             ApplySettings(null);
         }
@@ -131,7 +131,7 @@ namespace Jagapippi.Layer2
         {
             if ((ILayerSettings)_settingsAsset != newSettings)
             {
-                if (Layer2Core.currentSettings is LayerSettingsAsset asset)
+                if (LayerSettingsSelection.current is LayerSettingsAsset asset)
                 {
                     _settingsAsset = asset;
                 }

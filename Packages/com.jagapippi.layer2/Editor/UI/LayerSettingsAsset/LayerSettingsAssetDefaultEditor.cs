@@ -68,7 +68,7 @@ namespace Jagapippi.Layer2.Editor
             container.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject));
             container.Q<Button>("apply-button").clicked += () =>
             {
-                Layer2Core.SetCurrentSettings(layerSettingsAsset);
+                LayerSettingsSelection.SetCurrent(layerSettingsAsset);
                 UnityEditorInternal.ProjectSettingsWindow.Repaint();
             };
             root.Add(container);

@@ -29,26 +29,26 @@ namespace Jagapippi.Layer2.Editor
 
                 void UpdateChoices(List<string> list)
                 {
-                    Layer2Core.currentSettings.GetNamesNonAlloc(list);
+                    LayerSettingsSelection.current.GetNamesNonAlloc(list);
                     maskField.choices = list;
                 }
 
-                Layer2Core.settingsChanged += OnSettingsChanged;
+                LayerSettingsSelection.changed += OnSettingsChanged;
 
-                if (Layer2Core.currentSettings != null)
+                if (LayerSettingsSelection.current != null)
                 {
-                    Layer2Core.currentSettings.changedSerializedObject += OnCurrentSettingsChanged;
+                    LayerSettingsSelection.current.changedSerializedObject += OnCurrentSettingsChanged;
                 }
 
                 maskField.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
 
                 void OnDetachFromPanel(DetachFromPanelEvent _)
                 {
-                    Layer2Core.settingsChanged -= OnSettingsChanged;
+                    LayerSettingsSelection.changed -= OnSettingsChanged;
 
-                    if (Layer2Core.currentSettings != null)
+                    if (LayerSettingsSelection.current != null)
                     {
-                        Layer2Core.currentSettings.changedSerializedObject -= OnCurrentSettingsChanged;
+                        LayerSettingsSelection.current.changedSerializedObject -= OnCurrentSettingsChanged;
                     }
                 }
 

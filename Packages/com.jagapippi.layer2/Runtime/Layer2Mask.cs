@@ -6,8 +6,8 @@ namespace Jagapippi.Layer2
     [Serializable]
     public struct Layer2Mask
     {
-        public static string LayerToName(int layer) => Layer2Core.currentSettings.LayerToName(layer);
-        public static int NameToLayer(string layerName) => Layer2Core.currentSettings.NameToLayer(layerName);
+        public static string LayerToName(int layer) => LayerSettingsSelection.current.LayerToName(layer);
+        public static int NameToLayer(string layerName) => LayerSettingsSelection.current.NameToLayer(layerName);
 
         public static int GetMask(params string[] layerNames)
         {

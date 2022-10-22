@@ -29,7 +29,7 @@ namespace Jagapippi.Layer2.Editor
         {
             using (_pool.Get(out var displayedOptions))
             {
-                var currentLayerSettings = Layer2Core.currentSettings;
+                var currentLayerSettings = LayerSettingsSelection.current;
                 currentLayerSettings.GetNamesWithIndexNonAlloc(displayedOptions);
 
                 displayedOptions[^1] = $"Edit {currentLayerSettings.name} ...";
