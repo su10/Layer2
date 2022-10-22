@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System;
 using System.Reactive.Disposables;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -32,14 +31,6 @@ namespace Jagapippi.Layer2.Editor
             {
                 var currentLayerSettings = Layer2Core.currentSettings;
                 currentLayerSettings.GetNamesWithIndexNonAlloc(displayedOptions);
-
-                for (var i = 0; i < Layer.MaxCount; i++)
-                {
-                    if (Regex.IsMatch(displayedOptions[i], @"^\d\d?: $"))
-                    {
-                        displayedOptions[i] = "";
-                    }
-                }
 
                 displayedOptions[^1] = AddLayerText;
 

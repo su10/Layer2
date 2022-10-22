@@ -45,7 +45,16 @@ namespace Jagapippi.Layer2
         {
             for (var i = 0; i < Layer.MaxCount; i++)
             {
-                list[i] = $"{i}: {settings.LayerToName(i)}";
+                var layerName = settings.LayerToName(i);
+
+                if (string.IsNullOrEmpty(layerName) || string.IsNullOrWhiteSpace(layerName))
+                {
+                    list[i] = "";
+                }
+                else
+                {
+                    list[i] = $"{i}: {layerName}";
+                }
             }
         }
 
