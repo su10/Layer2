@@ -8,16 +8,11 @@ namespace Jagapippi.Layer2.Editor.UnityEditorInternal
     {
         public static void Repaint()
         {
-            if (HasOpenInstances())
-            {
-                var window = EditorWindow.GetWindow<InternalProjectSettingsWindow>();
-                window.Repaint();
-            }
-        }
+            var hasOpenInstances = EditorWindow.HasOpenInstances<InternalProjectSettingsWindow>();
+            if (hasOpenInstances == false) return;
 
-        private static bool HasOpenInstances()
-        {
-            return EditorWindow.HasOpenInstances<InternalProjectSettingsWindow>();
+            var window = EditorWindow.GetWindowDontShow<InternalProjectSettingsWindow>();
+            if (window.IsSelectedTab()) window.Repaint();
         }
     }
 }
