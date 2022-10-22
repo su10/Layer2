@@ -12,6 +12,7 @@ namespace Jagapippi.Layer2
     internal sealed class UnityLayerSettings : ILayerSettings
     {
         public static readonly UnityLayerSettings instance = new();
+        private const string Name = "Default Layer Settings";
 
 #if UNITY_EDITOR
         private static readonly string[] _layers = instance.GetNames();
@@ -42,6 +43,7 @@ namespace Jagapippi.Layer2
 
         #region ILayerSettings
 
+        public string name => Name;
         public string LayerToName(int layer) => LayerMask.LayerToName(layer);
         public int NameToLayer(string name) => LayerMask.NameToLayer(name);
         public bool GetCollision(int layer1, int layer2) => (Physics.GetIgnoreLayerCollision(layer1, layer2) == false);

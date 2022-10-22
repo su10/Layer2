@@ -11,7 +11,6 @@ namespace Jagapippi.Layer2.Editor
     internal static class Layer2Popup
     {
         private const string LabelText = "Layer2";
-        private const string AddLayerText = "Edit Layer...";
         private const int ListLength = Layer.MaxCount + 2;
 
         private static readonly ObjectPool<string[]> _pool = new(
@@ -33,7 +32,7 @@ namespace Jagapippi.Layer2.Editor
                 var currentLayerSettings = Layer2Core.currentSettings;
                 currentLayerSettings.GetNamesWithIndexNonAlloc(displayedOptions);
 
-                displayedOptions[^1] = AddLayerText;
+                displayedOptions[^1] = $"Edit {currentLayerSettings.name} ...";
 
                 using (SetLabelWidth(CalcLabelSize(LabelText).x))
                 {

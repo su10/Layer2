@@ -5,6 +5,7 @@ namespace Jagapippi.Layer2
 {
     public interface ILayerSettings
     {
+        string name { get; }
         string LayerToName(int layer);
         int NameToLayer(string name);
         bool GetCollision(int layer1, int layer2);
