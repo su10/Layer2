@@ -31,7 +31,7 @@ namespace Jagapippi.Layer2
                     changed = true;
                 }
 
-                if (changed) instance.changed?.Invoke(instance);
+                if (changed) instance.changedSerializedObject?.Invoke(instance);
             };
         }
 #endif
@@ -46,7 +46,7 @@ namespace Jagapippi.Layer2
         public int NameToLayer(string name) => LayerMask.NameToLayer(name);
         public bool GetCollision(int layer1, int layer2) => (Physics.GetIgnoreLayerCollision(layer1, layer2) == false);
 #if UNITY_EDITOR
-        public event Action<ILayerSettings> changed;
+        public event Action<ILayerSettings> changedSerializedObject;
 #endif
 
         #endregion

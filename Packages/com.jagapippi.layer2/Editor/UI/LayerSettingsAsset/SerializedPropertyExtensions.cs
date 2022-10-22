@@ -31,7 +31,7 @@ namespace Jagapippi.Layer2.Editor
 
         public static SerializedProperty FindLayersProperty(this SerializedProperty layerSettingsProperty)
         {
-            return layerSettingsProperty.FindPropertyRelative(nameof(LayerSettings._layers));
+            return layerSettingsProperty.FindPropertyRelative(nameof(LayerSettingsAsset._layers));
         }
 
         public static SerializedProperty FindNameProperty(this SerializedProperty layerProperty)

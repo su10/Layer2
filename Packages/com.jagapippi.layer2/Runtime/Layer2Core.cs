@@ -1,5 +1,6 @@
 using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace Jagapippi.Layer2
 {
@@ -26,6 +27,17 @@ namespace Jagapippi.Layer2
             _currentSettings = layerSettings;
             currentSettings.ApplyCollisionMatrix();
             settingsChanged?.Invoke(old, layerSettings);
+        }
+
+        private static void ApplyCollisionMatrix(this ILayerSettings settings)
+        {
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                for (var j = 0; j < Layer.MaxCount - i; j++)
+                {
+                    Physics.IgnoreLayerCollision(i, j, settings.GetIgnoreCollision(i, j));
+                }
+            }
         }
     }
 }

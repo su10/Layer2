@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Jagapippi.Layer2
 {
@@ -10,7 +9,7 @@ namespace Jagapippi.Layer2
         int NameToLayer(string name);
         bool GetCollision(int layer1, int layer2);
 #if UNITY_EDITOR
-        event Action<ILayerSettings> changed;
+        event Action<ILayerSettings> changedSerializedObject;
 #endif
     }
 
@@ -38,17 +37,6 @@ namespace Jagapippi.Layer2
             for (var i = 0; i < Layer.MaxCount; i++)
             {
                 list[i] = settings.LayerToName(i);
-            }
-        }
-
-        public static void ApplyCollisionMatrix(this ILayerSettings settings)
-        {
-            for (var i = 0; i < Layer.MaxCount; i++)
-            {
-                for (var j = 0; j < Layer.MaxCount - i; j++)
-                {
-                    Physics.IgnoreLayerCollision(i, j, settings.GetIgnoreCollision(i, j));
-                }
             }
         }
     }

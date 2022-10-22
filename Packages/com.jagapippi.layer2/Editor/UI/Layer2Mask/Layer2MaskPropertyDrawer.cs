@@ -37,7 +37,7 @@ namespace Jagapippi.Layer2.Editor
 
                 if (Layer2Core.currentSettings != null)
                 {
-                    Layer2Core.currentSettings.changed += OnCurrentSettingsChanged;
+                    Layer2Core.currentSettings.changedSerializedObject += OnCurrentSettingsChanged;
                 }
 
                 maskField.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
@@ -48,7 +48,7 @@ namespace Jagapippi.Layer2.Editor
 
                     if (Layer2Core.currentSettings != null)
                     {
-                        Layer2Core.currentSettings.changed -= OnCurrentSettingsChanged;
+                        Layer2Core.currentSettings.changedSerializedObject -= OnCurrentSettingsChanged;
                     }
                 }
 
@@ -56,8 +56,8 @@ namespace Jagapippi.Layer2.Editor
                 {
                     UpdateChoices(choices);
 
-                    if (oldSettings != null) oldSettings.changed -= OnCurrentSettingsChanged;
-                    if (newSettings != null) newSettings.changed += OnCurrentSettingsChanged;
+                    if (oldSettings != null) oldSettings.changedSerializedObject -= OnCurrentSettingsChanged;
+                    if (newSettings != null) newSettings.changedSerializedObject += OnCurrentSettingsChanged;
                 }
 
                 void OnCurrentSettingsChanged(ILayerSettings settings)

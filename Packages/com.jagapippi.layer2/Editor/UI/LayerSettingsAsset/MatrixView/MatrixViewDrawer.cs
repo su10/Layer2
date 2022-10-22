@@ -26,18 +26,18 @@ namespace Jagapippi.Layer2.Editor
             }
         }
 
-        public static VisualElement CreateGUI(SerializedProperty property)
+        public static VisualElement CreateGUI(SerializedObject serializedObject)
         {
             var root = Assets.CreateContainer();
-            root.BindProperty(property);
-            Construct(property, root);
+            root.BindProperty(serializedObject);
+            Construct(serializedObject, root);
 
             return root;
         }
 
-        private static void Construct(SerializedProperty property, VisualElement root)
+        private static void Construct(SerializedObject serializedObject, VisualElement root)
         {
-            var layersProperty = property.FindLayersProperty();
+            var layersProperty = serializedObject.FindProperty("_layers");
             var collisionMatrixVisualElement = root.Q<CollisionMatrix>();
 
             // Labels
@@ -133,7 +133,7 @@ namespace Jagapippi.Layer2.Editor
                         layerProperty.FindCollisionMatrixProperty().intValue = (value ? -1 : 0);
                     }
 
-                    property.serializedObject.ApplyModifiedProperties();
+                    serializedObject.ApplyModifiedProperties();
                 }
             }
         }

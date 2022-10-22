@@ -110,8 +110,35 @@ namespace Jagapippi.Layer2
 #if UNITY_EDITOR
         void OnValidate() => ApplySettings();
 #endif
-        void OnEnable() => ApplySettings();
-        void OnDisable() => ApplySettings(null);
+        void OnEnable()
+        {
+#if UNITY_EDITOR
+            Layer2Core.settingsChanged += OnLayer2CoreSettingsChanged;
+#endif
+            ApplySettings();
+        }
+
+        void OnDisable()
+        {
+#if UNITY_EDITOR
+            Layer2Core.settingsChanged -= OnLayer2CoreSettingsChanged;
+#endif
+            ApplySettings(null);
+        }
+
+#if UNITY_EDITOR
+        void OnLayer2CoreSettingsChanged(ILayerSettings oldSettings, ILayerSettings newSettings)
+        {
+            if ((ILayerSettings)_settingsAsset != newSettings)
+            {
+                if (Layer2Core.currentSettings is LayerSettingsAsset asset)
+                {
+                    _settingsAsset = asset;
+                }
+            }
+        }
+#endif
+
         void OnDestroy() => ApplySettings(null);
     }
 }

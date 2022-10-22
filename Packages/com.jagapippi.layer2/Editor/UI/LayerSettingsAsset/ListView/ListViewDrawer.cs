@@ -40,18 +40,18 @@ namespace Jagapippi.Layer2.Editor
             }
         }
 
-        public static VisualElement CreateGUI(SerializedProperty property)
+        public static VisualElement CreateGUI(SerializedObject serializedObject)
         {
             var root = Assets.CreateContainer();
 
-            Construct(property, root);
+            Construct(serializedObject, root);
 
             return root;
         }
 
-        private static void Construct(SerializedProperty property, VisualElement root)
+        private static void Construct(SerializedObject serializedObject, VisualElement root)
         {
-            var layersProperty = property.FindLayersProperty();
+            var layersProperty = serializedObject.FindProperty("_layers");
             var choices = Enumerable.Repeat("", Layer.MaxCount).ToList();
 
             for (var i = 0; i < Layer.MaxCount; i++)
@@ -137,7 +137,7 @@ namespace Jagapippi.Layer2.Editor
                     }
                 }
 
-                property.serializedObject.ApplyModifiedProperties();
+                serializedObject.ApplyModifiedProperties();
             };
         }
 
