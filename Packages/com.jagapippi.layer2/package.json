@@ -15,5 +15,11 @@
     "layer",
     "physics"
   ],
+  "samples": [
+    {
+      "displayName": "Handy Options",
+      "path": "HandyOptions~"
+    }
+  ],
   "license": "MIT License"
 }
