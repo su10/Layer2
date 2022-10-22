@@ -17,15 +17,30 @@ namespace Jagapippi.Layer2
         {
             _current = null;
         }
-#endif
 
-        public static void SetCurrent(ILayerSettings layerSettings)
+        internal static void Select(ILayerSettings layerSettings)
         {
             if (_current == layerSettings) return;
 
             var old = _current;
             _current = layerSettings;
+
+            changed?.Invoke(old, layerSettings);
+        }
+#endif
+
+        public static void Apply(ILayerSettings layerSettings)
+        {
+            if (_current == layerSettings)
+            {
+                current.ApplyCollisionMatrix();
+                return;
+            }
+
+            var old = _current;
+            _current = layerSettings;
             current.ApplyCollisionMatrix();
+
             changed?.Invoke(old, layerSettings);
         }
 

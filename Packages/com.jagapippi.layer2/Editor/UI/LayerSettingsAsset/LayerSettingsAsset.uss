@@ -1,3 +1,22 @@
-#apply-button {
-    margin: 25px;
+#buttons-group{
+    margin: 10px;
+}
+
+#save-button {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#horizontal-buttons-group {
+    flex-direction: row;
+    align-content: flex-end;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+}
+
+#select-button, #apply-button {
+    width: 50%;
+    margin: 0;
 }

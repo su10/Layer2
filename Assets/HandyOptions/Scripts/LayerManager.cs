@@ -42,7 +42,7 @@ namespace Jagapippi.Layer2
             }
         }
 
-        public static void ApplySettings(ILayerSettings settings) => LayerSettingsSelection.SetCurrent(settings);
+        public static void ApplySettings(ILayerSettings settings) => LayerSettingsSelection.Apply(settings);
         private static void ApplySettings() => ApplySettings(_instance ? _instance._settingsAsset : null);
 
         [SerializeField] private LayerSettingsAsset _settingsAsset;

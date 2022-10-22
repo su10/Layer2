@@ -66,11 +66,53 @@ namespace Jagapippi.Layer2.Editor
             var container = Assets.CreateContainer();
             container.Q<Foldout>("list-view-foldout").contentContainer.Add(ListViewDrawer.CreateGUI(this.serializedObject));
             container.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject));
-            container.Q<Button>("apply-button").clicked += () =>
+
+            // Save Button
             {
-                LayerSettingsSelection.SetCurrent(layerSettingsAsset);
-                UnityEditorInternal.ProjectSettingsWindow.Repaint();
-            };
+                var button = container.Q<Button>("save-button");
+                button.clicked += () => AssetDatabase.SaveAssetIfDirty(this.target);
+
+                // Handle Enable
+                {
+                    EditorApplication.update += OnEditorUpdate;
+                    button.RegisterCallback<DetachFromPanelEvent, EditorApplication.CallbackFunction>(
+                        (_, callback) => EditorApplication.update -= callback,
+                        OnEditorUpdate
+                    );
+
+                    void OnEditorUpdate() => button.SetEnabled(EditorUtility.IsDirty(this.target));
+                }
+            }
+            // Select Button
+            {
+                var button = container.Q<Button>("select-button");
+                button.clicked += () => LayerSettingsSelection.Select(layerSettingsAsset);
+
+                // Handle Enable
+                {
+                    EditorApplication.update += OnEditorUpdate;
+                    button.RegisterCallback<DetachFromPanelEvent, EditorApplication.CallbackFunction>(
+                        (_, callback) => EditorApplication.update -= callback,
+                        OnEditorUpdate
+                    );
+
+                    void OnEditorUpdate()
+                    {
+                        button.SetEnabled(LayerSettingsSelection.current != (ILayerSettings)layerSettingsAsset);
+                    }
+                }
+            }
+            // Apply Button
+            {
+                var button = container.Q<Button>("apply-button");
+                button.clicked += () =>
+                {
+                    LayerSettingsSelection.Apply(layerSettingsAsset);
+
+                    UnityEditorInternal.ProjectSettingsWindow.Repaint();
+                };
+            }
+
             root.Add(container);
 
             return root;
