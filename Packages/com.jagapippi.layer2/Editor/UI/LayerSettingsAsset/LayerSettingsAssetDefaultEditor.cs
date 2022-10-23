@@ -27,41 +27,10 @@ namespace Jagapippi.Layer2.Editor
             }
         }
 
-        private static VisualElement CreateScriptReadonlyField(SerializedObject serializedObject)
-        {
-            var iterator = serializedObject.GetIterator();
-
-            if (iterator.NextVisible(true))
-            {
-                do
-                {
-                    var serializedProperty = iterator.Copy();
-
-                    if (iterator.propertyPath == "m_Script" && serializedObject.targetObject != null)
-                    {
-                        var propertyField = new VisualElement { name = $"PropertyField:{serializedProperty.propertyPath}" };
-                        var objectField = new ObjectField("Script") { name = "unity-input-m_Script" };
-                        objectField.BindProperty(serializedProperty);
-
-                        objectField.focusable = false;
-                        propertyField.Add(objectField);
-                        propertyField.Q(null, "unity-object-field__selector")?.SetEnabled(false);
-                        propertyField.Q(null, "unity-base-field__label")?.AddToClassList("unity-disabled");
-                        propertyField.Q(null, "unity-base-field__input")?.AddToClassList("unity-disabled");
-
-                        return propertyField;
-                    }
-                }
-                while (iterator.NextVisible(false));
-            }
-
-            return null;
-        }
-
         public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
-            root.Add(CreateScriptReadonlyField(this.serializedObject));
+            root.Add(CustomEditorHelper.CreateScriptReadonlyField(this.serializedObject));
 
             var layerSettingsAsset = this.target as LayerSettingsAsset;
 
