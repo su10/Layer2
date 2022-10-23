@@ -26,7 +26,7 @@ namespace Jagapippi.Layer2.Editor
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.Space(40);
+                GUILayout.Space(14);
 
                 EditorGUI.BeginChangeCheck();
 
