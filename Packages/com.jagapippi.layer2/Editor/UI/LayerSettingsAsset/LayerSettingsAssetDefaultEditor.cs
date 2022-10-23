@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor
@@ -67,6 +68,11 @@ namespace Jagapippi.Layer2.Editor
             container.Q<Foldout>("list-view-foldout").contentContainer.Add(ListViewDrawer.CreateGUI(this.serializedObject));
             container.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject));
 
+            // Copy ProjectSettings Button
+            {
+                var button = container.Q<Button>("copy-project-settings-button");
+                button.clicked += this.CopyProjectSettingsAndSave;
+            }
             // Save Button
             {
                 var button = container.Q<Button>("save-button");
@@ -116,6 +122,31 @@ namespace Jagapippi.Layer2.Editor
             root.Add(container);
 
             return root;
+        }
+
+        private void CopyProjectSettingsAndSave()
+        {
+            var layersProperty = this.serializedObject.FindProperty(nameof(LayerSettingsAsset._layers));
+
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                var layerProperty = layersProperty.ElementAt(i);
+                layerProperty.FindNameProperty().stringValue = LayerMask.LayerToName(i);
+
+                var collisionMatrixProperty = layerProperty.FindCollisionMatrixProperty();
+                var collisionMatrix = collisionMatrixProperty.intValue;
+
+                for (var j = 0; j < Layer.MaxCount; j++)
+                {
+                    var enable = (Physics.GetIgnoreLayerCollision(i, j) == false);
+
+                    BitHelper.SetBit(ref collisionMatrix, j, enable);
+                    collisionMatrixProperty.intValue = collisionMatrix;
+                }
+            }
+
+            this.serializedObject.ApplyModifiedProperties();
+            AssetDatabase.SaveAssetIfDirty(this.target);
         }
     }
 }
