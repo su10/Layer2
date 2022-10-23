@@ -32,7 +32,7 @@ namespace Jagapippi.Layer2
             var old = _current;
             _current = layerSettings;
 
-            changed?.Invoke(old, layerSettings);
+            changed?.Invoke(old, current);
         }
 #endif
 
@@ -48,7 +48,7 @@ namespace Jagapippi.Layer2
             _current = layerSettings;
             current.ApplyCollisionMatrix();
 
-            changed?.Invoke(old, layerSettings);
+            changed?.Invoke(old, current);
         }
 
         private static void ApplyCollisionMatrix(this ILayerSettings settings)
