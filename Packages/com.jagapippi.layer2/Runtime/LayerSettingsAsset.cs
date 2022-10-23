@@ -86,7 +86,33 @@ namespace Jagapippi.Layer2
 
         #region ISerializationCallbackReceiver
 
-        void ISerializationCallbackReceiver.OnBeforeSerialize() => changedSerializedObject?.Invoke(this);
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+            changedSerializedObject?.Invoke(this);
+
+            switch (this.physicsDimensions)
+            {
+                case PhysicsDimensions.Three:
+                {
+                    if (LayerSettingsSelection2D.current == (ILayerSettings)this)
+                    {
+                        LayerSettingsSelection2D.Select(null);
+                    }
+
+                    break;
+                }
+                case PhysicsDimensions.Two:
+                {
+                    if (LayerSettingsSelection.current == (ILayerSettings)this)
+                    {
+                        LayerSettingsSelection.Select(null);
+                    }
+
+                    break;
+                }
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
