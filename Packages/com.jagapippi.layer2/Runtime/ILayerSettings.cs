@@ -5,6 +5,7 @@ namespace Jagapippi.Layer2
 {
     public interface ILayerSettings
     {
+        PhysicsDimensions physicsDimensions { get; }
         string name { get; }
         string LayerToName(int layer);
         int NameToLayer(string name);

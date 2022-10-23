@@ -8,6 +8,8 @@ namespace Jagapippi.Layer2
         , ISerializationCallbackReceiver
 #endif
     {
+        [SerializeField] internal PhysicsDimensions _physicsDimensions;
+
         [SerializeField] internal SerializableLayer[] _layers =
         {
             BuiltinLayer.Default.AsSerializable(),
@@ -45,6 +47,8 @@ namespace Jagapippi.Layer2
         };
 
         #region ILayerSettings
+
+        public PhysicsDimensions physicsDimensions => _physicsDimensions;
 
         public string LayerToName(int layer) => _layers[layer];
 
