@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor.UIElements
 {
-    public class CollisionMatrix : BindableElement
+    internal class CollisionMatrix : BindableElement
     {
         public new class UxmlFactory : UxmlFactory<CollisionMatrix, UxmlTraits>
         {

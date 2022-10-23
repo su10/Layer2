@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace Jagapippi.Layer2.Editor
 {
     [CustomEditor(typeof(LayerSettingsAsset), true, isFallback = true)]
-    public class LayerSettingsAssetDefaultEditor : UnityEditor.Editor
+    internal class LayerSettingsAssetDefaultEditor : UnityEditor.Editor
     {
         private static class Assets
         {

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor
 {
-    public static class ListViewDrawer
+    internal static class ListViewDrawer
     {
         private static class Assets
         {

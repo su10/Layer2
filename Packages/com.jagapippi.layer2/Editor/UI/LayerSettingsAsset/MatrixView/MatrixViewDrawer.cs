@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor
 {
-    public static class MatrixViewDrawer
+    internal static class MatrixViewDrawer
     {
         private static class Assets
         {

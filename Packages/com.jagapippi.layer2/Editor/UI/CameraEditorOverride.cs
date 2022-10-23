@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 namespace Jagapippi.Layer2.Editor
 {
     [CustomEditor(typeof(Camera), true)]
-    public class CameraEditorOverride : UnityEditor.Editor
+    internal class CameraEditorOverride : UnityEditor.Editor
     {
         private static string MaskFieldLabel;
 

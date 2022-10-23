@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor.UIElements
 {
-    public class CollisionMatrixRowToggles : BindableElement, INotifyValueChanged<int>
+    internal class CollisionMatrixRowToggles : BindableElement, INotifyValueChanged<int>
     {
         public new class UxmlFactory : UxmlFactory<CollisionMatrixRowToggles, UxmlTraits>
         {
