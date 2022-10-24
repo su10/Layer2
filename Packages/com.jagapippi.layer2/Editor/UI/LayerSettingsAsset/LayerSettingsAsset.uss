@@ -1,4 +1,8 @@
-#buttons-group{
+#list-view-foldout #unity-content {
+    margin-left: 0;
+}
+
+#buttons-group {
     margin: 10px;
 }
 
