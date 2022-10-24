@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using Jagapippi.Layer2.Editor.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -26,19 +27,20 @@ namespace Jagapippi.Layer2.Editor
             }
         }
 
-        public static VisualElement CreateGUI(SerializedObject serializedObject)
+        public static VisualElement CreateGUI(SerializedObject serializedObject, PhysicsDimensions physicsDimensions)
         {
             var root = Assets.CreateContainer();
             root.BindProperty(serializedObject);
-            Construct(serializedObject, root);
+            Construct(serializedObject, root, physicsDimensions);
 
             return root;
         }
 
-        private static void Construct(SerializedObject serializedObject, VisualElement root)
+        private static void Construct(SerializedObject serializedObject, VisualElement root, PhysicsDimensions physicsDimensions)
         {
-            var layersProperty = serializedObject.FindProperty("_layers");
+            var layersProperty = serializedObject.FindLayersProperty();
             var collisionMatrixVisualElement = root.Q<CollisionMatrix>();
+            collisionMatrixVisualElement.physicsDimensions = physicsDimensions;
 
             // Labels
             {
@@ -130,7 +132,13 @@ namespace Jagapippi.Layer2.Editor
                     for (var i = 0; i < Layer.MaxCount; i++)
                     {
                         var layerProperty = layersProperty.ElementAt(i);
-                        layerProperty.FindCollisionMatrixProperty().intValue = (value ? -1 : 0);
+                        var matrixProperty = physicsDimensions switch
+                        {
+                            PhysicsDimensions.Three => layerProperty.FindCollisionMatrixProperty(),
+                            PhysicsDimensions.Two => layerProperty.FindCollisionMatrix2DProperty(),
+                            _ => throw new ArgumentOutOfRangeException(),
+                        };
+                        matrixProperty.intValue = (value ? -1 : 0);
                     }
 
                     serializedObject.ApplyModifiedProperties();

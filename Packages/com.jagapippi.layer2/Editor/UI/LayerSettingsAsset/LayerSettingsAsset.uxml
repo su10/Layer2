@@ -3,9 +3,9 @@
     <ui:VisualElement style="align-items: auto; margin-bottom: 10px;">
         <ui:Button text="Copy ProjectSettings" display-tooltip-when-elided="true" name="copy-project-settings-button" enable-rich-text="false" />
     </ui:VisualElement>
-    <ui:VisualElement name="physics-dimensions" style="flex-shrink: 0;" />
     <ui:Foldout text="Layers" name="list-view-foldout" view-data-key="list-view-foldout" />
     <ui:Foldout text="Collision Matrix" name="matrix-view-foldout" view-data-key="matrix-view-foldout" />
+    <ui:Foldout text="Collision Matrix 2D" name="matrix2d-view-foldout" view-data-key="matrix2d-view-foldout" />
     <ui:GroupBox name="buttons-group">
         <ui:Button text="Save" name="save-button" enable-rich-text="false" />
         <ui:GroupBox name="horizontal-buttons-group">

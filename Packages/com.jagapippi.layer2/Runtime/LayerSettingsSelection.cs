@@ -9,7 +9,7 @@ namespace Jagapippi.Layer2
     internal static class LayerSettingsSelection
     {
         private static ILayerSettings _current;
-        public static ILayerSettings current => _current ?? UnityLayerSettings.instance;
+        public static ILayerSettings current => _current ?? EmptyLayerSettings.instance;
 
 #if UNITY_EDITOR
         public static event Action<ILayerSettings, ILayerSettings> changed;
@@ -23,11 +23,6 @@ namespace Jagapippi.Layer2
         internal static void Select(ILayerSettings layerSettings)
         {
             if (_current == layerSettings) return;
-
-            if ((layerSettings != null) && (layerSettings.physicsDimensions != PhysicsDimensions.Three))
-            {
-                throw new ArgumentException(nameof(layerSettings));
-            }
 
             var old = _current;
             _current = layerSettings;
@@ -58,6 +53,7 @@ namespace Jagapippi.Layer2
                 for (var j = 0; j < Layer.MaxCount - i; j++)
                 {
                     Physics.IgnoreLayerCollision(i, j, settings.GetIgnoreCollision(i, j));
+                    Physics2D.IgnoreLayerCollision(i, j, settings.GetIgnoreCollision2D(i, j));
                 }
             }
         }

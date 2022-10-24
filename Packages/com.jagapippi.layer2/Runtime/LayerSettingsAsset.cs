@@ -8,8 +8,6 @@ namespace Jagapippi.Layer2
         , ISerializationCallbackReceiver
 #endif
     {
-        [SerializeField] internal PhysicsDimensions _physicsDimensions;
-
         [SerializeField] internal SerializableLayer[] _layers =
         {
             BuiltinLayer.Default.AsSerializable(),
@@ -48,8 +46,6 @@ namespace Jagapippi.Layer2
 
         #region ILayerSettings
 
-        public PhysicsDimensions physicsDimensions => _physicsDimensions;
-
         public string LayerToName(int layer) => _layers[layer];
 
         public int NameToLayer(string name)
@@ -76,6 +72,16 @@ namespace Jagapippi.Layer2
             return a;
         }
 
+        public bool GetCollision2D(int layer1, int layer2)
+        {
+            var a = _layers[layer1].GetCollision2D(layer2);
+            var b = _layers[layer2].GetCollision2D(layer1);
+
+            if (a != b) throw new DataInconsistencyException();
+
+            return a;
+        }
+
 #if UNITY_EDITOR
         public event Action<ILayerSettings> changedSerializedObject;
 #endif
@@ -89,29 +95,6 @@ namespace Jagapippi.Layer2
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             changedSerializedObject?.Invoke(this);
-
-            switch (this.physicsDimensions)
-            {
-                case PhysicsDimensions.Three:
-                {
-                    if (LayerSettingsSelection2D.current == (ILayerSettings)this)
-                    {
-                        LayerSettingsSelection2D.Select(null);
-                    }
-
-                    break;
-                }
-                case PhysicsDimensions.Two:
-                {
-                    if (LayerSettingsSelection.current == (ILayerSettings)this)
-                    {
-                        LayerSettingsSelection.Select(null);
-                    }
-
-                    break;
-                }
-                default: throw new ArgumentOutOfRangeException();
-            }
         }
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()

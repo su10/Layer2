@@ -46,7 +46,7 @@ namespace Jagapippi.Layer2.Editor
 
                         switch (currentLayerSettings)
                         {
-                            case UnityLayerSettingsBase:
+                            case EmptyLayerSettings:
                             {
                                 target = Unsupported.GetSerializedAssetInterfaceSingleton("TagManager");
                                 break;

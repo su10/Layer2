@@ -9,19 +9,19 @@ namespace Jagapippi.Layer2
         [SerializeField] internal string _name;
         [SerializeField] internal int _index;
         [SerializeField] internal int _collisionMatrix;
+        [SerializeField] internal int _collisionMatrix2D;
 
         public override string name => _name;
         public override int index => _index;
         protected override int collisionMatrix => _collisionMatrix;
+        protected override int collisionMatrix2D => _collisionMatrix2D;
 
-        internal SerializableLayer(string name, int index, int collisionMatrix = -1) : base(name, index, collisionMatrix)
+        internal SerializableLayer(string name, int index, int collisionMatrix = -1, int collisionMatrix2D = -1) : base(name, index, collisionMatrix, collisionMatrix2D)
         {
             _name = base.name;
             _index = base.index;
             _collisionMatrix = base.collisionMatrix;
+            _collisionMatrix2D = base.collisionMatrix2D;
         }
-
-        internal void SetCollision(Layer layer, bool enable) => this.SetCollision(layer.index, enable);
-        internal void SetCollision(int index, bool enable) => BitHelper.SetBit(ref _collisionMatrix, index, enable);
     }
 }

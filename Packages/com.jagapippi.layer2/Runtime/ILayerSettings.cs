@@ -5,11 +5,11 @@ namespace Jagapippi.Layer2
 {
     public interface ILayerSettings
     {
-        PhysicsDimensions physicsDimensions { get; }
         string name { get; }
         string LayerToName(int layer);
         int NameToLayer(string name);
         bool GetCollision(int layer1, int layer2);
+        bool GetCollision2D(int layer1, int layer2);
 #if UNITY_EDITOR
         event Action<ILayerSettings> changedSerializedObject;
 #endif
@@ -20,6 +20,11 @@ namespace Jagapippi.Layer2
         public static bool GetIgnoreCollision(this ILayerSettings settings, int layer1, int layer2)
         {
             return (settings.GetCollision(layer1, layer2) == false);
+        }
+
+        public static bool GetIgnoreCollision2D(this ILayerSettings settings, int layer1, int layer2)
+        {
+            return (settings.GetCollision2D(layer1, layer2) == false);
         }
 
         public static string[] GetNames(this ILayerSettings settings)

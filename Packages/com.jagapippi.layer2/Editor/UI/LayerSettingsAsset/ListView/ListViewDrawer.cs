@@ -51,7 +51,7 @@ namespace Jagapippi.Layer2.Editor
 
         private static void Construct(SerializedObject serializedObject, VisualElement root)
         {
-            var layersProperty = serializedObject.FindProperty("_layers");
+            var layersProperty = serializedObject.FindLayersProperty();
             var choices = Enumerable.Repeat("", Layer.MaxCount).ToList();
 
             for (var i = 0; i < Layer.MaxCount; i++)

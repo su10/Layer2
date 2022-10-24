@@ -1,7 +1,5 @@
 #if UNITY_EDITOR
-using System;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,17 +34,9 @@ namespace Jagapippi.Layer2.Editor
 
             var container = Assets.CreateContainer();
 
-            // Physics Dimensions
-            {
-                const string fieldName = nameof(layerSettingsAsset._physicsDimensions);
-                var enumField = new EnumField(ObjectNames.NicifyVariableName(fieldName));
-                enumField.BindProperty(this.serializedObject.FindProperty(fieldName));
-
-                container.Q("physics-dimensions").Add(enumField);
-            }
-
             container.Q<Foldout>("list-view-foldout").contentContainer.Add(ListViewDrawer.CreateGUI(this.serializedObject));
-            container.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject));
+            container.Q<Foldout>("matrix-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject, PhysicsDimensions.Three));
+            container.Q<Foldout>("matrix2d-view-foldout").contentContainer.Add(MatrixViewDrawer.CreateGUI(this.serializedObject, PhysicsDimensions.Two));
 
             // Copy ProjectSettings Button
             {
@@ -72,23 +62,7 @@ namespace Jagapippi.Layer2.Editor
             // Select Button
             {
                 var button = container.Q<Button>("select-button");
-                button.clicked += () =>
-                {
-                    switch (layerSettingsAsset.physicsDimensions)
-                    {
-                        case PhysicsDimensions.Three:
-                        {
-                            LayerSettingsSelection.Select(layerSettingsAsset);
-                            break;
-                        }
-                        case PhysicsDimensions.Two:
-                        {
-                            LayerSettingsSelection2D.Select(layerSettingsAsset);
-                            break;
-                        }
-                        default: throw new ArgumentOutOfRangeException();
-                    }
-                };
+                button.clicked += () => LayerSettingsSelection.Select(layerSettingsAsset);
 
                 // Handle Enable
                 {
@@ -100,20 +74,7 @@ namespace Jagapippi.Layer2.Editor
 
                     void OnEditorUpdate()
                     {
-                        switch (layerSettingsAsset.physicsDimensions)
-                        {
-                            case PhysicsDimensions.Three:
-                            {
-                                button.SetEnabled(LayerSettingsSelection.current != (ILayerSettings)layerSettingsAsset);
-                                break;
-                            }
-                            case PhysicsDimensions.Two:
-                            {
-                                button.SetEnabled(LayerSettingsSelection2D.current != (ILayerSettings)layerSettingsAsset);
-                                break;
-                            }
-                            default: throw new ArgumentOutOfRangeException();
-                        }
+                        button.SetEnabled((ILayerSettings)layerSettingsAsset != LayerSettingsSelection.current);
                     }
                 }
             }
@@ -122,20 +83,7 @@ namespace Jagapippi.Layer2.Editor
                 var button = container.Q<Button>("apply-button");
                 button.clicked += () =>
                 {
-                    switch (layerSettingsAsset.physicsDimensions)
-                    {
-                        case PhysicsDimensions.Three:
-                        {
-                            LayerSettingsSelection.Apply(layerSettingsAsset);
-                            break;
-                        }
-                        case PhysicsDimensions.Two:
-                        {
-                            LayerSettingsSelection2D.Apply(layerSettingsAsset);
-                            break;
-                        }
-                        default: throw new ArgumentOutOfRangeException();
-                    }
+                    LayerSettingsSelection.Apply(layerSettingsAsset);
 
                     UnityEditorInternal.ProjectSettingsWindow.Repaint();
                 };
@@ -148,7 +96,7 @@ namespace Jagapippi.Layer2.Editor
 
         private void CopyProjectSettingsAndSave()
         {
-            var layersProperty = this.serializedObject.FindProperty(nameof(LayerSettingsAsset._layers));
+            var layersProperty = this.serializedObject.FindLayersProperty();
 
             for (var i = 0; i < Layer.MaxCount; i++)
             {
@@ -157,29 +105,27 @@ namespace Jagapippi.Layer2.Editor
 
                 var collisionMatrixProperty = layerProperty.FindCollisionMatrixProperty();
                 var collisionMatrix = collisionMatrixProperty.intValue;
+                var collisionMatrix2DProperty = layerProperty.FindCollisionMatrix2DProperty();
+                var collisionMatrix2D = collisionMatrix2DProperty.intValue;
 
                 for (var j = 0; j < Layer.MaxCount; j++)
                 {
-                    var physicsDimensions = ((LayerSettingsAsset)this.target).physicsDimensions;
-                    var enable = GetCollision(physicsDimensions, i, j);
-
-                    BitHelper.SetBit(ref collisionMatrix, j, enable);
-                    collisionMatrixProperty.intValue = collisionMatrix;
+                    {
+                        var enable = (Physics.GetIgnoreLayerCollision(i, j) == false);
+                        BitHelper.SetBit(ref collisionMatrix, j, enable);
+                        collisionMatrixProperty.intValue = collisionMatrix;
+                    }
+                    {
+                        var enable = (Physics2D.GetIgnoreLayerCollision(i, j) == false);
+                        BitHelper.SetBit(ref collisionMatrix2D, j, enable);
+                        collisionMatrix2DProperty.intValue = collisionMatrix2D;
+                    }
                 }
             }
 
             this.serializedObject.ApplyModifiedProperties();
-            AssetDatabase.SaveAssetIfDirty(this.target);
-        }
 
-        private static bool GetCollision(PhysicsDimensions physicsDimensions, int layer1, int layer2)
-        {
-            return physicsDimensions switch
-            {
-                PhysicsDimensions.Three => (Physics.GetIgnoreLayerCollision(layer1, layer2) == false),
-                PhysicsDimensions.Two => (Physics2D.GetIgnoreLayerCollision(layer1, layer2) == false),
-                _ => throw new ArgumentOutOfRangeException(),
-            };
+            AssetDatabase.SaveAssetIfDirty(this.target);
         }
     }
 }
