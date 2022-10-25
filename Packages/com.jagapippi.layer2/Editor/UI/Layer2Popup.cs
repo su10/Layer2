@@ -53,8 +53,7 @@ namespace Jagapippi.Layer2.Editor
                 }
                 else
                 {
-                    // SEE: https://qiita.com/su10/items/ab33adefda8c2f7423e3
-                    list[i] = $"{i}: {layerName}".Replace(" ", "\u00A0");
+                    list[i] = $"{i}: {layerName}".ReplaceSpaceForPopup();
                 }
             }
         }

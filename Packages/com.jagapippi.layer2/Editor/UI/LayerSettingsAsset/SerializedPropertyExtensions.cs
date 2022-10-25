@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Jagapippi.Layer2.Editor.UnityEditorInternal;
 using UnityEditor;
@@ -27,6 +28,26 @@ namespace Jagapippi.Layer2.Editor
             }
 
             return -1;
+        }
+
+        public static IEnumerable<SerializedProperty> ToEnumerable(this SerializedProperty self)
+        {
+            foreach (SerializedProperty property in self)
+            {
+                yield return property;
+            }
+        }
+
+        public static List<SerializedProperty> ToList(this SerializedProperty self)
+        {
+            var list = new List<SerializedProperty>();
+
+            for (var i = 0; i < self.arraySize; i++)
+            {
+                list.Add(self.ElementAt(i));
+            }
+
+            return list;
         }
 
         public static SerializedProperty FindNameProperty(this SerializedProperty layerProperty)

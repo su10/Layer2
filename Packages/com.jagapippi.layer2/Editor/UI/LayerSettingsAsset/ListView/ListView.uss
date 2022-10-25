@@ -1,22 +1,29 @@
 #unity-list-view__reorderable-item__container {
-    padding-left: 5px;
+    padding: 0 0 0 5px;
 }
 
-#list-view-item {
+ListViewItem {
     flex-direction: row;
+    margin-left: 20px;
+    margin-bottom: 1px;
 }
 
-#list-view-item TextField {
+ListView ListViewItem {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+ListViewItem TextField {
     width: 65%;
     margin: 0;
 }
 
-#list-view-item TextField > Label {
+ListViewItem TextField > Label {
     width: 90px;
     min-width: 90px;
 }
 
-#list-view-item MaskField {
+ListViewItem MaskField {
     width: 35%;
     margin: 0;
 }
