@@ -38,7 +38,7 @@ namespace Jagapippi.Layer2
                     var _ = new GameObject(nameof(LayerManager), typeof(LayerManager));
                 }
 
-                return LayerSettingsSelection.current;
+                return LayerSettingsSelection.active;
             }
         }
 
@@ -131,7 +131,7 @@ namespace Jagapippi.Layer2
         {
             if ((ILayerSettings)_settingsAsset != newSettings)
             {
-                if (LayerSettingsSelection.current is LayerSettingsAsset asset)
+                if (LayerSettingsSelection.active is LayerSettingsAsset asset)
                 {
                     _settingsAsset = asset;
                 }

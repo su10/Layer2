@@ -29,15 +29,15 @@ namespace Jagapippi.Layer2.Editor
 
                 void UpdateChoices(List<string> list)
                 {
-                    LayerSettingsSelection.current.GetNamesNonAlloc(list);
+                    LayerSettingsSelection.active.GetNamesNonAlloc(list);
                     maskField.choices = list;
                 }
 
                 LayerSettingsSelection.changed += OnSettingsChanged;
 
-                if (LayerSettingsSelection.current != null)
+                if (LayerSettingsSelection.active != null)
                 {
-                    LayerSettingsSelection.current.changedSerializedObject += OnCurrentSettingsChanged;
+                    LayerSettingsSelection.active.changedSerializedObject += OnCurrentSettingsChanged;
                 }
 
                 maskField.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
@@ -46,9 +46,9 @@ namespace Jagapippi.Layer2.Editor
                 {
                     LayerSettingsSelection.changed -= OnSettingsChanged;
 
-                    if (LayerSettingsSelection.current != null)
+                    if (LayerSettingsSelection.active != null)
                     {
-                        LayerSettingsSelection.current.changedSerializedObject -= OnCurrentSettingsChanged;
+                        LayerSettingsSelection.active.changedSerializedObject -= OnCurrentSettingsChanged;
                     }
                 }
 

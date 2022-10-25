@@ -42,7 +42,7 @@ namespace Jagapippi.Layer2.Editor
                     else
                     {
                         Object target = null;
-                        var currentLayerSettings = LayerSettingsSelection.current;
+                        var currentLayerSettings = LayerSettingsSelection.active;
 
                         switch (currentLayerSettings)
                         {

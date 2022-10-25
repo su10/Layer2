@@ -1,16 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Packages/com.jagapippi.layer2/Editor/UI/LayerSettingsAsset/LayerSettingsAsset.uss?fileID=7433441132597879392&amp;guid=bf82173844d0a483ba20e55371c95a87&amp;type=3#LayerSettingsAsset" />
-    <ui:VisualElement style="align-items: auto; margin-bottom: 10px;">
-        <ui:Button text="Copy ProjectSettings" display-tooltip-when-elided="true" name="copy-project-settings-button" enable-rich-text="false" />
-    </ui:VisualElement>
     <ui:Foldout text="Layers" name="list-view-foldout" view-data-key="list-view-foldout" />
     <ui:Foldout text="Collision Matrix" name="matrix-view-foldout" view-data-key="matrix-view-foldout" />
     <ui:Foldout text="Collision Matrix 2D" name="matrix2d-view-foldout" view-data-key="matrix2d-view-foldout" />
-    <ui:GroupBox name="buttons-group">
-        <ui:Button text="Save" name="save-button" enable-rich-text="false" />
-        <ui:GroupBox name="horizontal-buttons-group">
-            <ui:Button text="Select" enable-rich-text="false" name="select-button" />
-            <ui:Button text="Apply" enable-rich-text="false" name="apply-button" />
-        </ui:GroupBox>
-    </ui:GroupBox>
+    <ui:Button text="Save" name="save-button" enable-rich-text="false" />
 </ui:UXML>
