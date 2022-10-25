@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using System.Linq;
 using Jagapippi.Layer2.Editor.UIElements;
 using UnityEditor;
@@ -103,6 +104,29 @@ namespace Jagapippi.Layer2.Editor
                 }
             }
 
+            var physicsDropdownField = root.Q<DropdownField>("physics-dropdown-field");
+
+            physicsDropdownField.RegisterValueChangedCallback(_ =>
+            {
+                var maskFields = root.Query<MaskField>().ToList();
+                for (var i = 0; i < maskFields.Count; i++)
+                {
+                    var layerProperty = layersProperty.ElementAt(i);
+                    var maskField = maskFields[i];
+                    maskField.BindProperty(GetCurrentCollisionMatrixProperty(layerProperty));
+                }
+            });
+
+            SerializedProperty GetCurrentCollisionMatrixProperty(SerializedProperty layerProperty)
+            {
+                return (PhysicsDimensions)physicsDropdownField.index switch
+                {
+                    PhysicsDimensions.Three => layerProperty.FindCollisionMatrixProperty(),
+                    PhysicsDimensions.Two => layerProperty.FindCollisionMatrix2DProperty(),
+                    _ => throw new ArgumentOutOfRangeException(),
+                };
+            }
+
             // Fixed layers
             {
                 var fixedLayers = root.Q<FixedLayers>();
@@ -112,6 +136,9 @@ namespace Jagapippi.Layer2.Editor
                 {
                     var item = items[i];
                     item.textField.label = GetLayerLabel(i);
+
+                    var layerProperty = layersProperty.ElementAt(i);
+                    item.maskField.BindProperty(GetCurrentCollisionMatrixProperty(layerProperty));
                 }
             }
 
@@ -151,6 +178,7 @@ namespace Jagapippi.Layer2.Editor
                     textField.RegisterValueChangedCallback(_ => UpdateCollisionMatrixChoices(applyToAllMaskFields: true));
 
                     var maskField = element.Q<MaskField>();
+                    maskField.BindProperty(GetCurrentCollisionMatrixProperty(layerProperty));
                     maskField.choices = choices;
                 };
 

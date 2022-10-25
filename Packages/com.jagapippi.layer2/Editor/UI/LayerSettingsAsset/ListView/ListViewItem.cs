@@ -26,8 +26,7 @@ namespace Jagapippi.Layer2.Editor.UIElements
             this.textField = new TextField { bindingPath = nameof(SerializableLayer._name) };
             this.Add(this.textField);
 
-            // TODO: 2D対応
-            this.maskField = new MaskField { bindingPath = nameof(SerializableLayer._collisionMatrix) };
+            this.maskField = new MaskField();
             this.Add(this.maskField);
         }
     }
