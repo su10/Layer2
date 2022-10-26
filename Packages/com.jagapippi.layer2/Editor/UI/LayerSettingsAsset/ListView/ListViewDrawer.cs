@@ -10,6 +10,9 @@ namespace Jagapippi.Layer2.Editor
 {
     internal static class ListViewDrawer
     {
+        public static readonly string ReorderWarningKey = nameof(ReorderWarningKey);
+        private const string ReorderWarningText = "If this asset is already in use, reordering will break existing layer settings of GameObjects in each scene/prefab.";
+
         private static class Assets
         {
             private static readonly GUID RootUxmlGuid = new("f63e9a10887cc4c18b89c40a1f122f1b");
@@ -32,6 +35,21 @@ namespace Jagapippi.Layer2.Editor
         {
             var root = Assets.CreateContainer();
             root.BindProperty(serializedObject.FindLayersProperty());
+
+            if (EditorUserSettingsHelper.GetConfigValue(ReorderWarningKey, true))
+            {
+                var helpBox = new HelpBox(ReorderWarningText, HelpBoxMessageType.Warning);
+                var closeButton = new Button(OnClick) { text = "Got it!" };
+                helpBox.Add(closeButton);
+
+                void OnClick()
+                {
+                    EditorUserSettingsHelper.SetConfigValue(ReorderWarningKey, false);
+                    helpBox.RemoveFromHierarchy();
+                }
+
+                root.Insert(0, helpBox);
+            }
 
             Construct(serializedObject, root);
 
