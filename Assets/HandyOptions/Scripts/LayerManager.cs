@@ -31,7 +31,7 @@ namespace Jagapippi.Layer2
                     }
                     case PlayModeStateChange.EnteredPlayMode:
                     {
-                        _instance = EditorHelper.FindComponentInCurrentHierarchy<LayerManager>();
+                        _instance = FindComponentInCurrentHierarchy<LayerManager>();
                         break;
                     }
                     case PlayModeStateChange.ExitingPlayMode:
@@ -56,7 +56,7 @@ namespace Jagapippi.Layer2
 
                 void FindAndSetInstance()
                 {
-                    _instance = EditorHelper.FindComponentInCurrentHierarchy<LayerManager>();
+                    _instance = FindComponentInCurrentHierarchy<LayerManager>();
 
                     if (_instance)
                     {
@@ -72,8 +72,17 @@ namespace Jagapippi.Layer2
                 void FindAndSetInstance(PrefabStage stage)
                 {
                     if (_instance) _instance.UnsubscribeChangedEvent();
-                    _instance = EditorHelper.FindComponentInCurrentHierarchy<LayerManager>();
+                    _instance = FindComponentInCurrentHierarchy<LayerManager>();
                 }
+            }
+
+            static T FindComponentInCurrentHierarchy<T>() where T : Component
+            {
+                var currentStageHandle = StageUtility.GetCurrentStageHandle();
+
+                return currentStageHandle.IsValid()
+                    ? currentStageHandle.FindComponentOfType<T>()
+                    : FindObjectOfType<T>();
             }
         }
 
