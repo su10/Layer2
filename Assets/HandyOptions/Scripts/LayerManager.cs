@@ -71,7 +71,6 @@ namespace Jagapippi.Layer2
 
                 void FindAndSetInstance(PrefabStage stage)
                 {
-                    if (_instance) _instance.UnsubscribeChangedEvent();
                     _instance = FindComponentInCurrentHierarchy<LayerManager>();
                 }
             }
@@ -125,6 +124,9 @@ namespace Jagapippi.Layer2
             }
         }
 
+#if UNITY_EDITOR
+        private bool isInCurrentHierarchy => StageUtility.GetCurrentStageHandle().Contains(this.gameObject);
+#endif
         private bool IsInSameHierarchy(LayerManager other)
         {
             if ((this == null) || (other == null)) return false;
@@ -192,13 +194,22 @@ namespace Jagapippi.Layer2
 
         void Awake()
         {
-            // NOTE: Awake() are not called in case of not reload scene when entering play mode, so we don't use it.
+#if UNITY_EDITOR
+            if (Application.isPlaying) return;
+            if ((_instance == null) || this.IsInSameHierarchy(_instance)) return;
+
+            _instance.UnsubscribeChangedEvent();
+#endif
         }
 
         void OnEnable()
         {
 #if UNITY_EDITOR
-            if ((Application.isPlaying == false) && EditorApplication.isPlayingOrWillChangePlaymode) return;
+            if (Application.isPlaying == false)
+            {
+                if (this.isInCurrentHierarchy == false) return;
+                if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+            }
 #endif
             if (this == _instance) return;
 
