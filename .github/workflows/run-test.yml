@@ -29,6 +29,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          unityVersion: ${{ matrix.unityVersion }}
           projectPath: Unity${{ matrix.unityVersion }}
           artifactsPath: Unity${{ matrix.unityVersion }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
