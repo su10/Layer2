@@ -9,8 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        projectPath:
-          - test-project
+        unityVersion:
+          - 2021.3.0f1
         testMode:
           - playmode
           - editmode
@@ -18,10 +18,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           lfs: true
+          path: ${{ matrix.unityVersion }}
       - uses: actions/cache@v2
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}
+          path: ${{ matrix.unityVersion }}/Library
+          key: Library-${{ matrix.unityVersion }}
           restore-keys: |
             Library-
       - uses: game-ci/unity-test-runner@v2
@@ -29,7 +30,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
