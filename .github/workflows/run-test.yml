@@ -11,6 +11,8 @@ jobs:
       matrix:
         unityVersion:
           - 2021.3.0f1
+          - 2021.3.12f1
+          - 2022.1.0f1
     steps:
       - uses: actions/checkout@v2
         with:
