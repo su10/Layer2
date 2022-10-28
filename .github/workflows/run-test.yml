@@ -1,4 +1,4 @@
-name: Test project
+name: Run Test
 
 on: [push, pull_request]
 
