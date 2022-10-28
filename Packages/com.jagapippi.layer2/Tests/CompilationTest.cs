@@ -21,6 +21,13 @@ namespace Jagapippi.Layer2
         [Test] public void XboxOne() => Assert.IsTrue(Compile(BuildTarget.XboxOne));
         [Test] public void tvOS() => Assert.IsTrue(Compile(BuildTarget.tvOS));
         [Test] public void Switch() => Assert.IsTrue(Compile(BuildTarget.Switch));
+        [Test] public void Lumin() => Assert.IsTrue(Compile(BuildTarget.Lumin));
+        [Test] public void Stadia() => Assert.IsTrue(Compile(BuildTarget.Stadia));
+        [Test] public void CloudRendering() => Assert.IsTrue(Compile(BuildTarget.CloudRendering));
+        [Test] public void GameCoreXboxSeries() => Assert.IsTrue(Compile(BuildTarget.GameCoreXboxSeries));
+        [Test] public void GameCoreXboxOne() => Assert.IsTrue(Compile(BuildTarget.GameCoreXboxOne));
+        [Test] public void PS5() => Assert.IsTrue(Compile(BuildTarget.PS5));
+        [Test] public void EmbeddedLinux() => Assert.IsTrue(Compile(BuildTarget.EmbeddedLinux));
 
         private static bool Compile(BuildTarget target)
         {
