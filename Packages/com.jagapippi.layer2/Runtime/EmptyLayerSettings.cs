@@ -11,7 +11,8 @@ namespace Jagapippi.Layer2
         public static readonly EmptyLayerSettings instance = new();
 
 #if UNITY_EDITOR
-        static EmptyLayerSettings()
+        [InitializeOnLoadMethod]
+        static void OnInitializeOnLoadMethod()
         {
             var layers = instance.GetNames();
 
