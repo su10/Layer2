@@ -47,5 +47,5 @@ MonoBehaviour:
   _defaultSettingsAsset: {fileID: 11400000, guid: d252d9b3b49404f65949bf5d09b25ee4, type: 2}
   _settingsAsset: {fileID: 0}
   _dontDestroyOnLoad: 1
-  _destroyOlderIfDuplicated: 0
+  _destroyDuplicatedInstance: 0
   _suppressDuplicateWarning: 0

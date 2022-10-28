@@ -171,7 +171,7 @@ namespace Jagapippi.Layer2
         [SerializeField] private LayerSettingsAsset _defaultSettingsAsset;
         [SerializeField] private LayerSettingsAsset _settingsAsset;
         [SerializeField] private bool _dontDestroyOnLoad = true;
-        [SerializeField] private bool _destroyOlderIfDuplicated;
+        [SerializeField] private DestroyDuplicatedInstance _destroyDuplicatedInstance;
         [SerializeField] private bool _suppressDuplicateWarning;
 
 #if UNITY_EDITOR
@@ -219,33 +219,47 @@ namespace Jagapippi.Layer2
             }
             else
             {
-                var destroyOlderIfDuplicated = _instance._destroyOlderIfDuplicated;
+                var destroyDuplication = _instance._destroyDuplicatedInstance;
                 var suppressDuplicateWarning = _instance._suppressDuplicateWarning;
 
-                if (destroyOlderIfDuplicated)
+                switch (destroyDuplication)
                 {
-                    _instance.gameObject.Destroy();
-                    _instance = this;
-
-                    ApplyCurrentSettingsAsset();
-                }
-                else
-                {
+                    case DestroyDuplicatedInstance.Newer:
+                    {
 #if UNITY_EDITOR
-                    if (Application.isPlaying == false)
-                    {
-                        EditorApplication.delayCall += () => this.gameObject.Destroy();
-                    }
-                    else
+                        if (Application.isPlaying == false)
+                        {
+                            EditorApplication.delayCall += () => this.gameObject.Destroy();
+                        }
+                        else
 #endif
-                    {
-                        this.gameObject.Destroy();
+                        {
+                            this.gameObject.Destroy();
+                        }
+
+                        break;
                     }
+                    case DestroyDuplicatedInstance.Older:
+                    {
+                        _instance.gameObject.Destroy();
+                        _instance = this;
+
+                        ApplyCurrentSettingsAsset();
+
+                        break;
+                    }
+                    default: throw new ArgumentOutOfRangeException();
                 }
 
                 if (suppressDuplicateWarning == false)
                 {
-                    var oldOrNew = destroyOlderIfDuplicated ? "old" : "new";
+                    var oldOrNew = _destroyDuplicatedInstance switch
+                    {
+                        DestroyDuplicatedInstance.Newer => "new",
+                        DestroyDuplicatedInstance.Older => "old",
+                        _ => throw new ArgumentOutOfRangeException(),
+                    };
+
                     Debug.LogWarning(string.Format(DestroyedDuplicatedInstanceWarning, oldOrNew, this.name));
                 }
             }
@@ -306,6 +320,12 @@ namespace Jagapippi.Layer2
 
             this.transform.SetParent(null);
             DontDestroyOnLoad(this.gameObject);
+        }
+
+        public enum DestroyDuplicatedInstance
+        {
+            Newer,
+            Older,
         }
     }
 }
