@@ -3,26 +3,23 @@ name: Test project
 on: [push, pull_request]
 
 jobs:
-  testAllModes:
-    name: Test in ${{ matrix.testMode }}
+  test:
+    name: Test in Unity${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         unityVersion:
           - 2021.3.0f1
-        testMode:
-          - playmode
-          - editmode
     steps:
       - uses: actions/checkout@v2
         with:
           lfs: true
-          path: ${{ matrix.unityVersion }}
+          path: Unity${{ matrix.unityVersion }}
       - uses: actions/cache@v2
         with:
-          path: ${{ matrix.unityVersion }}/Library
-          key: Library-${{ matrix.unityVersion }}
+          path: Unity${{ matrix.unityVersion }}/Library
+          key: Library-Unity${{ matrix.unityVersion }}
           restore-keys: |
             Library-
       - uses: game-ci/unity-test-runner@v2
@@ -30,19 +27,18 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          projectPath: ${{ matrix.unityVersion }}
-          testMode: ${{ matrix.testMode }}
-          artifactsPath: ${{ matrix.testMode }}-artifacts
+          projectPath: Unity${{ matrix.unityVersion }}
+          artifactsPath: Unity${{ matrix.unityVersion }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          checkName: ${{ matrix.testMode }} Test Results
+          checkName: Unity${{ matrix.unityVersion }} Test Results
           coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: Test results for ${{ matrix.testMode }}
+          name: Test results for Unity${{ matrix.unityVersion }}
           path: ${{ steps.tests.outputs.artifactsPath }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: Coverage results for ${{ matrix.testMode }}
+          name: Coverage results for Unity${{ matrix.unityVersion }}
           path: ${{ steps.tests.outputs.coveragePath }}
