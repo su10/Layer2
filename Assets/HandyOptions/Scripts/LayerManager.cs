@@ -92,9 +92,7 @@ namespace Jagapippi.Layer2
         }
 #endif
 
-        private static readonly string DestroyedDuplicatedInstanceWarning = $"instance of {nameof(LayerManager)} was destroyed due to duplication.";
-        private static readonly string DestroyedDuplicatedOldInstanceWarning = $"The old {DestroyedDuplicatedInstanceWarning}";
-        private static readonly string DestroyedDuplicatedNewInstanceWarning = $"The new {DestroyedDuplicatedInstanceWarning}";
+        private const string DestroyedDuplicatedInstanceWarning = "The {0} instance \"{1}\" was destroyed due to duplication.";
 
         private static LayerManager _instance;
 
@@ -247,11 +245,8 @@ namespace Jagapippi.Layer2
 
                 if (suppressDuplicateWarning == false)
                 {
-                    var warning = destroyOlderIfDuplicated
-                        ? DestroyedDuplicatedOldInstanceWarning
-                        : DestroyedDuplicatedNewInstanceWarning;
-
-                    Debug.LogWarning(warning);
+                    var oldOrNew = destroyOlderIfDuplicated ? "old" : "new";
+                    Debug.LogWarning(string.Format(DestroyedDuplicatedInstanceWarning, oldOrNew, this.name));
                 }
             }
 
