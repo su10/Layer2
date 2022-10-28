@@ -233,7 +233,16 @@ namespace Jagapippi.Layer2
                 }
                 else
                 {
-                    this.gameObject.Destroy();
+#if UNITY_EDITOR
+                    if (Application.isPlaying == false)
+                    {
+                        EditorApplication.delayCall += () => this.gameObject.Destroy();
+                    }
+                    else
+#endif
+                    {
+                        this.gameObject.Destroy();
+                    }
                 }
 
                 if (suppressDuplicateWarning == false)
@@ -284,6 +293,7 @@ namespace Jagapippi.Layer2
 
         private void OnLayerSettingsSelectionChanged(ILayerSettings oldSettings, ILayerSettings newSettings)
         {
+            if (this == null) return;
             if ((ILayerSettings)_settingsAsset == newSettings) return;
             if (LayerSettingsSelection.active is not LayerSettingsAsset asset) return;
             if (_settingsAsset == asset) return;
