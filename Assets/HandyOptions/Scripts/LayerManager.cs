@@ -61,7 +61,7 @@ namespace Jagapippi.Layer2
                     if (_instance)
                     {
                         _instance.SubscribeChangedEvent();
-                        ApplyCurrentSettingsAsset();
+                        ApplySettingsAsset();
                     }
                 }
             }
@@ -110,17 +110,7 @@ namespace Jagapippi.Layer2
             }
         }
 
-        public static ILayerSettings currentSettings => LayerSettingsSelection.active;
-
-        private static LayerSettingsAsset currentSettingsAsset
-        {
-            get
-            {
-                if (_instance == null) return null;
-                if (_instance._settingsAsset) return _instance._settingsAsset;
-                return _instance._defaultSettingsAsset;
-            }
-        }
+        public static ILayerSettings activeSettings => LayerSettingsSelection.activeSettings;
 
 #if UNITY_EDITOR
         private bool isInCurrentHierarchy => StageUtility.GetCurrentStageHandle().Contains(this.gameObject);
@@ -144,9 +134,16 @@ namespace Jagapippi.Layer2
             SelectOrApply(settings);
         }
 
-        private static void ApplyCurrentSettingsAsset()
+        private static void ApplySettingsAsset()
         {
-            SelectOrApply(currentSettingsAsset);
+            var asset = _instance switch
+            {
+                _ when (_instance == null) => null,
+                _ when (_instance._settingsAsset) => _instance._settingsAsset,
+                _ => _instance._defaultSettingsAsset,
+            };
+
+            SelectOrApply(asset);
         }
 
         private static void ApplyDefaultSettingsAsset()
@@ -184,7 +181,7 @@ namespace Jagapippi.Layer2
 
             this.UnsubscribeChangedEvent();
             {
-                ApplyCurrentSettingsAsset();
+                ApplySettingsAsset();
             }
             this.SubscribeChangedEvent();
         }
@@ -215,7 +212,7 @@ namespace Jagapippi.Layer2
             {
                 _instance = this;
 
-                ApplyCurrentSettingsAsset();
+                ApplySettingsAsset();
             }
             else
             {
@@ -244,7 +241,7 @@ namespace Jagapippi.Layer2
                         _instance.gameObject.Destroy();
                         _instance = this;
 
-                        ApplyCurrentSettingsAsset();
+                        ApplySettingsAsset();
 
                         break;
                     }
@@ -304,7 +301,7 @@ namespace Jagapippi.Layer2
         {
             if (this == null) return;
             if ((ILayerSettings)_settingsAsset == newSettings) return;
-            if (LayerSettingsSelection.active is not LayerSettingsAsset asset) return;
+            if (LayerSettingsSelection.activeSettings is not LayerSettingsAsset asset) return;
             if (_settingsAsset == asset) return;
 
             _settingsAsset = asset;

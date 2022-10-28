@@ -18,8 +18,8 @@ namespace Jagapippi.Layer2
         private static readonly UnityEngine.Object Physics2DSettings = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(Physics2DSettings));
         private static readonly UnityEngine.Object TagManager = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(TagManager));
 #endif
-        private static ILayerSettings _active;
-        public static ILayerSettings active => _active ?? EmptyLayerSettings.instance;
+        private static ILayerSettings _activeSettings;
+        public static ILayerSettings activeSettings => _activeSettings ?? EmptyLayerSettings.instance;
 
 #if UNITY_EDITOR
         public static event Action<ILayerSettings, ILayerSettings> changed;
@@ -33,7 +33,7 @@ namespace Jagapippi.Layer2
 
             EventCallbackHelper.initializeOnEnterPlayMode -= OnInitializeOnEnterPlayMode;
             EventCallbackHelper.initializeOnEnterPlayMode += OnInitializeOnEnterPlayMode;
-            void OnInitializeOnEnterPlayMode() => _active = null;
+            void OnInitializeOnEnterPlayMode() => _activeSettings = null;
 
             EventCallbackHelper.enteredEditMode -= OnEnteredEditMode;
             EventCallbackHelper.enteredEditMode += OnEnteredEditMode;
@@ -44,7 +44,7 @@ namespace Jagapippi.Layer2
         {
             if (Application.isPlaying) return;
 
-            if (_active is LayerSettingsAsset settingsAsset)
+            if (_activeSettings is LayerSettingsAsset settingsAsset)
             {
                 var path = AssetDatabase.GetAssetPath(settingsAsset);
                 var guid = AssetDatabase.AssetPathToGUID(path);
@@ -64,24 +64,24 @@ namespace Jagapippi.Layer2
             if (string.IsNullOrEmpty(guid) == false)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                _active = AssetDatabase.LoadAssetAtPath<LayerSettingsAsset>(path);
+                _activeSettings = AssetDatabase.LoadAssetAtPath<LayerSettingsAsset>(path);
             }
             else
             {
-                _active = null;
+                _activeSettings = null;
             }
         }
 
         internal static void Select(ILayerSettings layerSettings)
         {
-            if (_active == layerSettings) return;
+            if (_activeSettings == layerSettings) return;
 
-            var old = _active;
-            _active = layerSettings;
+            var old = _activeSettings;
+            _activeSettings = layerSettings;
 
             SaveActiveAssetGUIDIfEditMode();
 
-            changed?.Invoke(old, active);
+            changed?.Invoke(old, activeSettings);
 
             InspectorWindow.RepaintAllInspectors();
         }
@@ -103,13 +103,13 @@ namespace Jagapippi.Layer2
 #if UNITY_EDITOR
                     if (Application.isPlaying == false)
                     {
-                        layersProperty.GetArrayElementAtIndex(i).stringValue = active.LayerToName(i);
+                        layersProperty.GetArrayElementAtIndex(i).stringValue = activeSettings.LayerToName(i);
                     }
 #endif
                     for (var j = 0; j < Layer.MaxCount - i; j++)
                     {
-                        Physics.IgnoreLayerCollision(i, j, active.GetIgnoreCollision(i, j));
-                        Physics2D.IgnoreLayerCollision(i, j, active.GetIgnoreCollision2D(i, j));
+                        Physics.IgnoreLayerCollision(i, j, activeSettings.GetIgnoreCollision(i, j));
+                        Physics2D.IgnoreLayerCollision(i, j, activeSettings.GetIgnoreCollision2D(i, j));
                     }
                 }
 #if UNITY_EDITOR
@@ -123,20 +123,20 @@ namespace Jagapippi.Layer2
 #endif
             }
 
-            if (_active == layerSettings)
+            if (_activeSettings == layerSettings)
             {
                 LocalApply();
                 return;
             }
 
-            var old = _active;
-            _active = layerSettings;
+            var old = _activeSettings;
+            _activeSettings = layerSettings;
             LocalApply();
 
 #if UNITY_EDITOR
             SaveActiveAssetGUIDIfEditMode();
 
-            changed?.Invoke(old, active);
+            changed?.Invoke(old, activeSettings);
 
             InspectorWindow.RepaintAllInspectors();
 #endif

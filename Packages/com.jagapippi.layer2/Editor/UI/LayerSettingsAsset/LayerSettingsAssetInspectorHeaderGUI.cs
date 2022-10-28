@@ -21,7 +21,7 @@ namespace Jagapippi.Layer2.Editor
 
             if (asset == null) return;
 
-            var active = LayerSettingsSelection.active;
+            var active = LayerSettingsSelection.activeSettings;
             var isActive = ((ILayerSettings)asset == active);
 
             using (new EditorGUILayout.HorizontalScope())
