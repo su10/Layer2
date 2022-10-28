@@ -24,7 +24,7 @@ jobs:
           key: Library-Unity${{ matrix.unityVersion }}
           restore-keys: |
             Library-
-      - uses: game-ci/unity-test-runner@v2
+      - uses: game-ci/unity-test-runner@5263cf0ab1d1c310c57c1861c71324b7e273909c
         id: tests
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
