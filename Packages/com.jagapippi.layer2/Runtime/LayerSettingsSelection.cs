@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 #if UNITY_EDITOR
+using Jagapippi.Layer2.Editor.UnityEditorInternal;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Compilation;
@@ -81,6 +82,8 @@ namespace Jagapippi.Layer2
             SaveActiveAssetGUIDIfEditMode();
 
             changed?.Invoke(old, active);
+
+            InspectorWindow.RepaintAllInspectors();
         }
 #endif
 
@@ -134,6 +137,8 @@ namespace Jagapippi.Layer2
             SaveActiveAssetGUIDIfEditMode();
 
             changed?.Invoke(old, active);
+
+            InspectorWindow.RepaintAllInspectors();
 #endif
         }
 

@@ -43,8 +43,6 @@ namespace Jagapippi.Layer2.Editor
                     if (picked != activeAsset)
                     {
                         LayerSettingsSelection.Select(picked);
-
-                        InspectorWindow.RepaintAllInspectors();
                     }
                 }
                 else
@@ -81,8 +79,6 @@ namespace Jagapippi.Layer2.Editor
                             if ((ILayerSettings)picked != active)
                             {
                                 LayerSettingsSelection.Select(picked);
-
-                                InspectorWindow.RepaintAllInspectors();
                             }
                         }
                     }
