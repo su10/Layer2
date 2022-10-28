@@ -11,10 +11,31 @@ namespace Jagapippi.Layer2
         public static readonly EmptyLayerSettings instance = new();
 
 #if UNITY_EDITOR
+        private static readonly UnityEngine.Object PhysicsManager = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(PhysicsManager));
+        private static readonly UnityEngine.Object Physics2DSettings = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(Physics2DSettings));
+
         [InitializeOnLoadMethod]
         static void OnInitializeOnLoadMethod()
         {
             var layers = instance.GetNames();
+
+            var physics = new SerializedObject(PhysicsManager);
+            var collisionMatrixProperty = physics.FindProperty("m_LayerCollisionMatrix");
+            var collisionMatrix = new uint[Layer.MaxCount];
+
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                collisionMatrix[i] = (uint)collisionMatrixProperty.GetArrayElementAtIndex(i).longValue;
+            }
+
+            var physics2D = new SerializedObject(Physics2DSettings);
+            var collisionMatrix2DProperty = physics2D.FindProperty("m_LayerCollisionMatrix");
+            var collisionMatrix2D = new uint[Layer.MaxCount];
+
+            for (var i = 0; i < Layer.MaxCount; i++)
+            {
+                collisionMatrix2D[i] = (uint)collisionMatrix2DProperty.GetArrayElementAtIndex(i).longValue;
+            }
 
             EditorApplication.update += () =>
             {
@@ -27,6 +48,33 @@ namespace Jagapippi.Layer2
 
                     layers[i] = layerName;
                     changed = true;
+                }
+
+                // Physics
+                {
+                    physics.Update();
+
+                    for (var i = 0; i < Layer.MaxCount; i++)
+                    {
+                        var newValue = (uint)collisionMatrixProperty.GetArrayElementAtIndex(i).longValue;
+
+                        if (newValue != collisionMatrix[i]) changed = true;
+
+                        collisionMatrix[i] = newValue;
+                    }
+                }
+                // Physics2D
+                {
+                    physics2D.Update();
+
+                    for (var i = 0; i < Layer.MaxCount; i++)
+                    {
+                        var newValue = (uint)collisionMatrix2DProperty.GetArrayElementAtIndex(i).longValue;
+
+                        if (newValue != collisionMatrix2D[i]) changed = true;
+
+                        collisionMatrix2D[i] = newValue;
+                    }
                 }
 
                 if (changed) instance.changedSerializedObject?.Invoke(instance);
