@@ -33,14 +33,8 @@ jobs:
           artifactsPath: Unity${{ matrix.unityVersion }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: Unity${{ matrix.unityVersion }} Test Results
-          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: Test results for Unity${{ matrix.unityVersion }}
           path: ${{ steps.tests.outputs.artifactsPath }}
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: Coverage results for Unity${{ matrix.unityVersion }}
-          path: ${{ steps.tests.outputs.coveragePath }}
