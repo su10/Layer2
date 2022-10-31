@@ -1,4 +1,4 @@
-#if UNITY_EDITOR && !UNITY_2022_2_OR_NEWER
+#if UNITY_EDITOR && !UNITY_2022_2_OR_NEWER && !LAYER2_DISABLE_DEFAULT_CUSTOM_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
