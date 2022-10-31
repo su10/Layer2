@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using System.Reflection;
 using Jagapippi.Layer2.Editor.Extensions;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -8,6 +9,33 @@ namespace Jagapippi.Layer2.Editor.UIElements
 {
     public class Layer2Field : PopupField<int>
     {
+        public new class UxmlFactory : UxmlFactory<Layer2Field, UxmlTraits>
+        {
+        }
+
+        public new class UxmlTraits : BaseField<int>.UxmlTraits
+        {
+            private static readonly FieldInfo PropertyPathFieldInfo = typeof(BindableElement.UxmlTraits).GetField("m_PropertyPath", BindingFlags.Instance | BindingFlags.NonPublic);
+            private static readonly FieldInfo LabelFieldInfo = typeof(BaseField<int>.UxmlTraits).GetField("m_Label", BindingFlags.Instance | BindingFlags.NonPublic);
+            private readonly UxmlIntAttributeDescription _value = new() { name = "value" };
+
+            public UxmlTraits()
+            {
+                var propertyPath = (UxmlStringAttributeDescription)PropertyPathFieldInfo.GetValue(this);
+                propertyPath.defaultValue = nameof(Layer2Layer._value);
+
+                var label = (UxmlStringAttributeDescription)LabelFieldInfo.GetValue(this);
+                label.defaultValue = nameof(Layer2);
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+
+                ((BaseField<int>)ve).value = _value.GetValueFromBag(bag, cc);
+            }
+        }
+
         public new static readonly string ussClassName = "unity-layer2-field";
         public new static readonly string labelUssClassName = ussClassName + "__label";
         public new static readonly string inputUssClassName = ussClassName + "__input";
