@@ -1,6 +1,6 @@
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.Extensions
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         public static string ReplaceSpaceForPopup(this string self)
         {

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.IMGUI
 {
     [CustomEditor(typeof(Camera), true)]
     internal class CameraEditorOverride : UnityEditor.Editor

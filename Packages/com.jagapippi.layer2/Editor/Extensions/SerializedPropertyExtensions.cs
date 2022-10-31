@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Jagapippi.Layer2.Editor.UnityEditorInternal;
 using UnityEditor;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.Extensions
 {
     internal static class SerializedPropertyExtensions
     {

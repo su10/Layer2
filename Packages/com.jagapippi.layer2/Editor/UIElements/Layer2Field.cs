@@ -1,9 +1,10 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using Jagapippi.Layer2.Editor.Extensions;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.UIElements
 {
     public class Layer2Field : PopupField<int>
     {
@@ -19,7 +20,7 @@ namespace Jagapippi.Layer2.Editor
         private static string OnFormatListItem(int index)
         {
             var layerName = LayerSettingsSelection.activeSettings.LayerToName(index);
-            return $"{index}: {layerName.ReplaceSpaceForPopup()}".ReplaceSpaceForPopup();
+            return $"{index}: {layerName}".ReplaceSpaceForPopup();
         }
 
         public override int value

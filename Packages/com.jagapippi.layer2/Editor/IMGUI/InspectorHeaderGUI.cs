@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.IMGUI
 {
     [InitializeOnLoad]
     internal static class InspectorHeaderGUI

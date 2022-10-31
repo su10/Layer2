@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.UIElements
 {
     internal static class CustomEditorHelper
     {

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.UIElements
 {
     [CustomPropertyDrawer(typeof(Layer2Layer))]
     internal class Layer2LayerPropertyDrawer : PropertyDrawer

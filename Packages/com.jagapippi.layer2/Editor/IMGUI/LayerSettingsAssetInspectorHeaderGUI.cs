@@ -1,10 +1,11 @@
 #if UNITY_EDITOR
 using System;
+using Jagapippi.Layer2.Editor.Extensions;
 using Jagapippi.Layer2.Editor.UnityEditorInternal;
 using UnityEditor;
 using UnityEngine;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.IMGUI
 {
     [InitializeOnLoad]
     internal class LayerSettingsAssetInspectorHeaderGUI

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.UIElements
 {
     [CustomEditor(typeof(LayerSettingsAsset), true, isFallback = true)]
     internal class LayerSettingsAssetDefaultEditor : UnityEditor.Editor

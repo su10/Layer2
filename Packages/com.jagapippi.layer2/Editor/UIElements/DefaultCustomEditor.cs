@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.UIElements
 {
     [CustomEditor(typeof(Object), true, isFallback = true)]
     internal class DefaultCustomEditor : UnityEditor.Editor

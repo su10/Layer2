@@ -1,11 +1,12 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using Jagapippi.Layer2.Editor.Extensions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Jagapippi.Layer2.Editor
+namespace Jagapippi.Layer2.Editor.IMGUI
 {
     internal static class Layer2Popup
     {
