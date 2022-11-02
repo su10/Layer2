@@ -18,15 +18,35 @@ namespace Jagapippi.Layer2.Editor.UIElements
             {
                 do
                 {
-                    VisualElement propertyField;
+                    var propertyField = new PropertyField(iterator.Copy()) { name = "PropertyField:" + iterator.propertyPath };
 
-                    if (iterator.propertyPath == "m_Script" && serializedObject.targetObject != null)
+                    if (iterator.propertyPath == "m_Script")
                     {
-                        propertyField = CustomEditorHelper.CreateScriptReadonlyField(this.serializedObject);
-                    }
-                    else
-                    {
-                        propertyField = new PropertyField(iterator.Copy()) { name = "PropertyField:" + iterator.propertyPath };
+#if !UNITY_2022_1_OR_NEWER
+                        if (serializedObject.targetObject != null)
+                        {
+                            propertyField.RegisterCallback<AttachToPanelEvent>(_ =>
+                            {
+                                var objectField = propertyField.Q<ObjectField>();
+                                var objectFieldDisplay = objectField.Q(null, "unity-object-field-display");
+
+                                objectField.AddToClassList("unity-disabled");
+                                objectFieldDisplay.RegisterCallback<KeyDownEvent>(e =>
+                                    {
+                                        if (e.keyCode == KeyCode.Space) e.PreventDefault();
+                                    },
+                                    TrickleDown.TrickleDown
+                                );
+                                objectFieldDisplay.RegisterCallback<DragPerformEvent>(e => e.PreventDefault(), TrickleDown.TrickleDown);
+                                objectField.Q(null, ObjectField.selectorUssClassName).SetEnabled(false);
+                            });
+                        }
+                        else
+#endif
+                        {
+                            InspectorElement.FillDefaultInspector(container, this.serializedObject, this);
+                            return container;
+                        }
                     }
 
                     container.Add(propertyField);
