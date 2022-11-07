@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Jagapippi.Layer2
@@ -59,12 +60,12 @@ namespace Jagapippi.Layer2
 
         internal static uint Int32ToUInt32(int @int)
         {
-            return BitConverter.ToUInt32(BitConverter.GetBytes(@int));
+            return UnsafeUtility.As<int, uint>(ref @int);
         }
 
         internal static int UInt32ToInt32(uint @uint)
         {
-            return BitConverter.ToInt32(BitConverter.GetBytes(@uint));
+            return UnsafeUtility.As<uint, int>(ref @uint);
         }
 
         public static void Reorder(ref int @int, int src, int dest)
