@@ -72,7 +72,7 @@ namespace Jagapippi.Layer2.Editor.Extensions
 
         public static SerializedProperty FindValueProperty(this SerializedProperty layer2MaskProperty)
         {
-            return layer2MaskProperty.FindPropertyRelative(nameof(Layer2Mask._value));
+            return layer2MaskProperty.FindPropertyRelative(nameof(Layer2Mask.m_Bits));
         }
 
         public static SerializedProperty FindParentProperty(this SerializedProperty self)
