@@ -1,53 +1,48 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Jagapippi.Layer2.Editor.Extensions;
+using Jagapippi.Layer2.Editor.UnityEditorInternal;
 using UnityEditor.UIElements;
-using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 namespace Jagapippi.Layer2.Editor.UIElements
 {
-    public class Layer2MaskField : MaskField
+    public class Layer2MaskField : Int64MaskField
     {
         public new class UxmlFactory : UxmlFactory<Layer2MaskField, UxmlTraits>
         {
         }
 
-        public new class UxmlTraits : MaskField.UxmlTraits
+        public new class UxmlTraits : Int64MaskField.UxmlTraits
         {
             private static readonly FieldInfo PropertyPathFieldInfo = typeof(BindableElement.UxmlTraits).GetField("m_PropertyPath", BindingFlags.Instance | BindingFlags.NonPublic);
-            private static readonly FieldInfo LabelFieldInfo = typeof(BaseField<int>.UxmlTraits).GetField("m_Label", BindingFlags.Instance | BindingFlags.NonPublic);
+            private static readonly FieldInfo LabelFieldInfo = typeof(Int64MaskField.UxmlTraits).GetField("m_Label", BindingFlags.Instance | BindingFlags.NonPublic);
 
             public UxmlTraits()
             {
                 var propertyPath = (UxmlStringAttributeDescription)PropertyPathFieldInfo.GetValue(this);
-                propertyPath.defaultValue = nameof(Layer2Mask._value);
+                propertyPath.defaultValue = nameof(Layer2Mask.m_Bits);
 
                 var label = (UxmlStringAttributeDescription)LabelFieldInfo.GetValue(this);
                 label.defaultValue = nameof(Layer2Mask);
             }
         }
 
-        public new static readonly string ussClassName = "unity-layer2mask-field";
-        public new static readonly string labelUssClassName = MaskField.ussClassName + "__label";
-        public new static readonly string inputUssClassName = MaskField.ussClassName + "__input";
+        public new static readonly string ussClassName = "unity-layer2-mask-field";
+        public new static readonly string labelUssClassName = Layer2MaskField.ussClassName + "__label";
+        public new static readonly string inputUssClassName = Layer2MaskField.ussClassName + "__input";
 
-        private static readonly ObjectPool<List<string>> _choicesPool = new(
-            createFunc: () => new List<string>(Layer.MaxCount),
-            actionOnRelease: target => target.Clear(),
-            collectionCheck: true
-        );
-
-        private static string OnFormatSelectedValue(string layerName)
-        {
-            return layerName;
-        }
+        private static string OnFormatSelectedValue(string layerName) => layerName;
 
         private static string OnFormatListItem(string layerName)
         {
+            if (string.IsNullOrEmpty(layerName)) return null;
+
             var index = LayerSettingsSelection.activeSettings.NameToLayer(layerName);
-            return (index < 0) ? null : $"{index}: {layerName}".ReplaceSpaceForPopup();
+            return (0 <= index) ? $"{index}: {layerName}".ReplaceSpaceForPopup() : null;
         }
+
+        private static readonly List<string> TempChoices = new();
 
         public Layer2MaskField() : this(null)
         {
@@ -57,42 +52,51 @@ namespace Jagapippi.Layer2.Editor.UIElements
         {
         }
 
-        public Layer2MaskField(string label, int defaultMask = 0)
-            : base(
-                label,
-                new List<string>(),
-                defaultMask,
-                OnFormatSelectedValue,
-                OnFormatListItem
-            )
+        public Layer2MaskField(string label, int defaultMask = 0) : base(label, defaultMask, OnFormatSelectedValue, OnFormatListItem)
         {
-            this.bindingPath = nameof(Layer2Mask._value);
+            this.bindingPath = nameof(Layer2Mask.m_Bits);
 
-            // Apply Classes
             {
-                this.AddToClassList(ussClassName);
-                this.labelElement.AddToClassList(labelUssClassName);
-                this.Q(null, MaskField.inputUssClassName).AddToClassList(inputUssClassName);
+                var labelElement = this.Q<VisualElement>(null, BasePopupField<long, string>.labelUssClassName);
+                labelElement.style.minWidth = new StyleLength(120);
+
+                var visualInput = this.Q<VisualElement>(null, BasePopupField<long, string>.inputUssClassName);
+
+                {
+                    this.AddToClassList(MaskField.ussClassName);
+                    labelElement.AddToClassList(MaskField.labelUssClassName);
+                    visualInput.AddToClassList(MaskField.inputUssClassName);
+                }
+                {
+                    this.AddToClassList(LayerMaskField.ussClassName);
+                    labelElement.AddToClassList(LayerMaskField.labelUssClassName);
+                    visualInput.AddToClassList(LayerMaskField.inputUssClassName);
+                }
+                {
+                    this.AddToClassList(Layer2MaskField.ussClassName);
+                    labelElement.AddToClassList(Layer2MaskField.labelUssClassName);
+                    visualInput.AddToClassList(Layer2MaskField.inputUssClassName);
+                }
+                {
+                    labelElement.AddToClassList(PropertyField.labelUssClassName);
+                    visualInput.AddToClassList(PropertyField.inputUssClassName);
+                }
             }
 
             UpdateChoices();
 
             void UpdateChoices()
             {
-                using (_choicesPool.Get(out var choices))
+                var settings = LayerSettingsSelection.activeSettings;
+
+                for (var i = 0; i < Layer.MaxCount; ++i)
                 {
-                    var settings = LayerSettingsSelection.activeSettings;
+                    var layerName = settings.LayerToName(i);
 
-                    for (var i = 0; i < Layer.MaxCount; ++i)
-                    {
-                        var layerName = settings.LayerToName(i);
-                        if (layerName.Length <= 0) continue;
-
-                        choices.Add(layerName);
-                    }
-
-                    this.choices = choices;
+                    TempChoices.Add(layerName);
                 }
+
+                this.choices = TempChoices;
             }
 
             // Sync Choices
