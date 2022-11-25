@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.Build.Player;
 
-namespace Jagapippi.Layer2
+namespace Jagapippi.Layer2.Tests
 {
     public class CompilationTest
     {

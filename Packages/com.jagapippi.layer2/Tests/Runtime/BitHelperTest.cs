@@ -2,7 +2,7 @@ using System;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Jagapippi.Layer2
+namespace Jagapippi.Layer2.Tests
 {
     public class BitHelperTest
     {
