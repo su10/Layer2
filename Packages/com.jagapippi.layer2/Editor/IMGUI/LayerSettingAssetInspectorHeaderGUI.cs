@@ -8,9 +8,9 @@ using UnityEngine;
 namespace Jagapippi.Layer2.Editor.IMGUI
 {
     [InitializeOnLoad]
-    internal class LayerSettingsAssetInspectorHeaderGUI
+    internal class LayerSettingAssetInspectorHeaderGUI
     {
-        static LayerSettingsAssetInspectorHeaderGUI()
+        static LayerSettingAssetInspectorHeaderGUI()
         {
             UnityEditor.Editor.finishedDefaultHeaderGUI -= OnGUI;
             UnityEditor.Editor.finishedDefaultHeaderGUI += OnGUI;
@@ -18,39 +18,39 @@ namespace Jagapippi.Layer2.Editor.IMGUI
 
         private static void OnGUI(UnityEditor.Editor editor)
         {
-            if (editor.target is not LayerSettingsAsset asset) return;
+            if (editor.target is not LayerSettingAsset asset) return;
 
             if (asset == null) return;
 
-            var active = LayerSettingsSelection.activeSettings;
-            var isActive = ((ILayerSettings)asset == active);
+            var active = LayerSettingSelection.activeSetting;
+            var isActive = ((ILayerSetting)asset == active);
 
             using (new EditorGUILayout.HorizontalScope())
             {
                 {
-                    const string label = "Active Settings";
+                    const string label = "Active Setting";
                     var width = EditorStyles.label.CalcSize(new GUIContent(label)).x + 5;
                     EditorGUILayout.LabelField(label, GUILayout.Width(width));
                 }
 
-                if (active is LayerSettingsAsset activeAsset)
+                if (active is LayerSettingAsset activeAsset)
                 {
-                    var picked = (LayerSettingsAsset)EditorGUILayout.ObjectField(
+                    var picked = (LayerSettingAsset)EditorGUILayout.ObjectField(
                         activeAsset,
-                        typeof(LayerSettingsAsset),
+                        typeof(LayerSettingAsset),
                         false
                     );
 
                     if (picked != activeAsset)
                     {
-                        LayerSettingsSelection.Select(picked);
+                        LayerSettingSelection.Select(picked);
                     }
                 }
                 else
                 {
                     {
-                        var label = (active == EmptyLayerSettings.instance) ? "(None)" : active.name;
-                        var style = (active == EmptyLayerSettings.instance) ? EditorStyles.boldLabel : EditorStyles.label;
+                        var label = (active == EmptyLayerSetting.instance) ? "(None)" : active.name;
+                        var style = (active == EmptyLayerSetting.instance) ? EditorStyles.boldLabel : EditorStyles.label;
                         style.clipping = TextClipping.Overflow;
                         EditorGUILayout.LabelField(label, style, GUILayout.MaxWidth(0));
                     }
@@ -66,20 +66,20 @@ namespace Jagapippi.Layer2.Editor.IMGUI
                         GUI.Box(rect, "");
                     }
                     {
-                        _ = (LayerSettingsAsset)EditorGUILayout.ObjectField(
+                        _ = (LayerSettingAsset)EditorGUILayout.ObjectField(
                             null,
-                            typeof(LayerSettingsAsset),
+                            typeof(LayerSettingAsset),
                             false,
                             GUILayout.Width(20)
                         );
 
                         if (ObjectSelector.HasOpenInstances())
                         {
-                            var picked = (LayerSettingsAsset)EditorGUIUtility.GetObjectPickerObject();
+                            var picked = (LayerSettingAsset)EditorGUIUtility.GetObjectPickerObject();
 
-                            if ((ILayerSettings)picked != active)
+                            if ((ILayerSetting)picked != active)
                             {
-                                LayerSettingsSelection.Select(picked);
+                                LayerSettingSelection.Select(picked);
                             }
                         }
                     }
@@ -96,7 +96,7 @@ namespace Jagapippi.Layer2.Editor.IMGUI
                 {
                     if (GUILayout.Button(new GUIContent("Select", "Set as active. Please use \"Apply\" in play mode.")))
                     {
-                        LayerSettingsSelection.Select(asset);
+                        LayerSettingSelection.Select(asset);
 
                         ProjectSettingsWindow.Repaint();
                     }
@@ -111,7 +111,7 @@ namespace Jagapippi.Layer2.Editor.IMGUI
 
                 if (GUILayout.Button(new GUIContent("Apply", tooltip)))
                 {
-                    LayerSettingsSelection.Apply(asset);
+                    LayerSettingSelection.Apply(asset);
 
                     ProjectSettingsWindow.Repaint();
                 }

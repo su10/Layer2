@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00dcba1fefff445680661ee99e49dafa, type: 3}
-  m_Name: DefaultLayerSettings
+  m_Name: DefaultLayerSetting
   m_EditorClassIdentifier: 
   _layers:
   - _name: Default

@@ -38,7 +38,7 @@ namespace Jagapippi.Layer2.Editor.UIElements
         {
             if (string.IsNullOrEmpty(layerName)) return null;
 
-            var index = LayerSettingsSelection.activeSettings.NameToLayer(layerName);
+            var index = LayerSettingSelection.activeSetting.NameToLayer(layerName);
             return (0 <= index) ? $"{index}: {layerName}".ReplaceSpaceForPopup() : null;
         }
 
@@ -87,11 +87,11 @@ namespace Jagapippi.Layer2.Editor.UIElements
 
             void UpdateChoices()
             {
-                var settings = LayerSettingsSelection.activeSettings;
+                var setting = LayerSettingSelection.activeSetting;
 
                 for (var i = 0; i < Layer.MaxCount; ++i)
                 {
-                    var layerName = settings.LayerToName(i);
+                    var layerName = setting.LayerToName(i);
 
                     TempChoices.Add(layerName);
                 }
@@ -101,25 +101,25 @@ namespace Jagapippi.Layer2.Editor.UIElements
 
             // Sync Choices
             {
-                LayerSettingsSelection.changed += OnSettingsChanged;
-                LayerSettingsSelection.activeSettings.changedSerializedObject += OnCurrentSettingsChanged;
+                LayerSettingSelection.changed += OnSettingChanged;
+                LayerSettingSelection.activeSetting.changedSerializedObject += OnCurrentSettingChanged;
 
-                void OnSettingsChanged(ILayerSettings oldSettings, ILayerSettings newSettings)
+                void OnSettingChanged(ILayerSetting oldSetting, ILayerSetting newSetting)
                 {
                     UpdateChoices();
 
-                    if (oldSettings != null) oldSettings.changedSerializedObject -= OnCurrentSettingsChanged;
-                    if (newSettings != null) newSettings.changedSerializedObject += OnCurrentSettingsChanged;
+                    if (oldSetting != null) oldSetting.changedSerializedObject -= OnCurrentSettingChanged;
+                    if (newSetting != null) newSetting.changedSerializedObject += OnCurrentSettingChanged;
                 }
 
-                void OnCurrentSettingsChanged(ILayerSettings settings) => UpdateChoices();
+                void OnCurrentSettingChanged(ILayerSetting setting) => UpdateChoices();
 
                 this.RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
 
                 void OnDetachFromPanel(DetachFromPanelEvent _)
                 {
-                    LayerSettingsSelection.changed -= OnSettingsChanged;
-                    LayerSettingsSelection.activeSettings.changedSerializedObject -= OnCurrentSettingsChanged;
+                    LayerSettingSelection.changed -= OnSettingChanged;
+                    LayerSettingSelection.activeSetting.changedSerializedObject -= OnCurrentSettingChanged;
                 }
             }
         }

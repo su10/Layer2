@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Jagapippi.Layer2
 {
-    public partial class LayerSettingsAsset : ScriptableObject, ILayerSettings
+    public partial class LayerSettingAsset : ScriptableObject, ILayerSetting
 #if UNITY_EDITOR
         , ISerializationCallbackReceiver
 #endif
@@ -44,7 +44,7 @@ namespace Jagapippi.Layer2
             new("", 31),
         };
 
-        #region ILayerSettings
+        #region ILayerSetting
 
         public string LayerToName(int layer) => _layers[layer];
 
@@ -83,7 +83,7 @@ namespace Jagapippi.Layer2
         }
 
 #if UNITY_EDITOR
-        public event Action<ILayerSettings> changedSerializedObject;
+        public event Action<ILayerSetting> changedSerializedObject;
 #endif
 
         #endregion

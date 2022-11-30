@@ -11,7 +11,7 @@ namespace Jagapippi.Layer2.Editor.UIElements
     internal static class ListViewDrawer
     {
         public static readonly string ReorderWarningKey = nameof(ReorderWarningKey);
-        private const string ReorderWarningText = "If this asset is already in use, reordering will break existing layer settings of GameObjects in each scene/prefab.";
+        private const string ReorderWarningText = "If this asset is already in use, reordering will break existing layer setting of GameObjects in each scene/prefab.";
 
         private static class Assets
         {

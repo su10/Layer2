@@ -9,20 +9,20 @@ using UnityEditor.Compilation;
 
 namespace Jagapippi.Layer2
 {
-    internal static class LayerSettingsSelection
+    internal static class LayerSettingSelection
     {
 #if UNITY_EDITOR
-        private static readonly string ShouldLoadActiveLayerSettingsAssetKey = nameof(ShouldLoadActiveLayerSettingsAssetKey);
+        private static readonly string ShouldLoadActiveLayerSettingAssetKey = nameof(ShouldLoadActiveLayerSettingAssetKey);
 
         private static readonly UnityEngine.Object PhysicsManager = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(PhysicsManager));
         private static readonly UnityEngine.Object Physics2DSettings = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(Physics2DSettings));
         private static readonly UnityEngine.Object TagManager = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(TagManager));
 #endif
-        private static ILayerSettings _activeSettings;
-        public static ILayerSettings activeSettings => _activeSettings ?? EmptyLayerSettings.instance;
+        private static ILayerSetting _activeSetting;
+        public static ILayerSetting activeSetting => _activeSetting ?? EmptyLayerSetting.instance;
 
 #if UNITY_EDITOR
-        public static event Action<ILayerSettings, ILayerSettings> changed;
+        public static event Action<ILayerSetting, ILayerSetting> changed;
 
         [InitializeOnLoadMethod]
         static void OnInitializeOnLoadMethod()
@@ -33,7 +33,7 @@ namespace Jagapippi.Layer2
 
             EventCallbackHelper.initializeOnEnterPlayMode -= OnInitializeOnEnterPlayMode;
             EventCallbackHelper.initializeOnEnterPlayMode += OnInitializeOnEnterPlayMode;
-            void OnInitializeOnEnterPlayMode() => _activeSettings = null;
+            void OnInitializeOnEnterPlayMode() => _activeSetting = null;
 
             EventCallbackHelper.enteredEditMode -= OnEnteredEditMode;
             EventCallbackHelper.enteredEditMode += OnEnteredEditMode;
@@ -44,50 +44,50 @@ namespace Jagapippi.Layer2
         {
             if (Application.isPlaying) return;
 
-            if (_activeSettings is LayerSettingsAsset settingsAsset)
+            if (_activeSetting is LayerSettingAsset settingAsset)
             {
-                var path = AssetDatabase.GetAssetPath(settingsAsset);
+                var path = AssetDatabase.GetAssetPath(settingAsset);
                 var guid = AssetDatabase.AssetPathToGUID(path);
 
-                SessionState.SetString(ShouldLoadActiveLayerSettingsAssetKey, guid);
+                SessionState.SetString(ShouldLoadActiveLayerSettingAssetKey, guid);
             }
             else
             {
-                SessionState.SetString(ShouldLoadActiveLayerSettingsAssetKey, null);
+                SessionState.SetString(ShouldLoadActiveLayerSettingAssetKey, null);
             }
         }
 
         private static void LoadActiveAsset()
         {
-            var guid = SessionState.GetString(ShouldLoadActiveLayerSettingsAssetKey, null);
+            var guid = SessionState.GetString(ShouldLoadActiveLayerSettingAssetKey, null);
 
             if (string.IsNullOrEmpty(guid) == false)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                _activeSettings = AssetDatabase.LoadAssetAtPath<LayerSettingsAsset>(path);
+                _activeSetting = AssetDatabase.LoadAssetAtPath<LayerSettingAsset>(path);
             }
             else
             {
-                _activeSettings = null;
+                _activeSetting = null;
             }
         }
 
-        internal static void Select(ILayerSettings layerSettings)
+        internal static void Select(ILayerSetting layerSetting)
         {
-            if (_activeSettings == layerSettings) return;
+            if (_activeSetting == layerSetting) return;
 
-            var old = _activeSettings;
-            _activeSettings = layerSettings;
+            var old = _activeSetting;
+            _activeSetting = layerSetting;
 
             SaveActiveAssetGUIDIfEditMode();
 
-            changed?.Invoke(old, activeSettings);
+            changed?.Invoke(old, activeSetting);
 
             InspectorWindow.RepaintAllInspectors();
         }
 #endif
 
-        public static void Apply(ILayerSettings layerSettings)
+        public static void Apply(ILayerSetting layerSetting)
         {
             void LocalApply()
             {
@@ -103,13 +103,13 @@ namespace Jagapippi.Layer2
 #if UNITY_EDITOR
                     if (Application.isPlaying == false)
                     {
-                        layersProperty.GetArrayElementAtIndex(i).stringValue = activeSettings.LayerToName(i);
+                        layersProperty.GetArrayElementAtIndex(i).stringValue = activeSetting.LayerToName(i);
                     }
 #endif
                     for (var j = 0; j < Layer.MaxCount - i; j++)
                     {
-                        Physics.IgnoreLayerCollision(i, j, activeSettings.GetIgnoreCollision(i, j));
-                        Physics2D.IgnoreLayerCollision(i, j, activeSettings.GetIgnoreCollision2D(i, j));
+                        Physics.IgnoreLayerCollision(i, j, activeSetting.GetIgnoreCollision(i, j));
+                        Physics2D.IgnoreLayerCollision(i, j, activeSetting.GetIgnoreCollision2D(i, j));
                     }
                 }
 #if UNITY_EDITOR
@@ -123,20 +123,20 @@ namespace Jagapippi.Layer2
 #endif
             }
 
-            if (_activeSettings == layerSettings)
+            if (_activeSetting == layerSetting)
             {
                 LocalApply();
                 return;
             }
 
-            var old = _activeSettings;
-            _activeSettings = layerSettings;
+            var old = _activeSetting;
+            _activeSetting = layerSetting;
             LocalApply();
 
 #if UNITY_EDITOR
             SaveActiveAssetGUIDIfEditMode();
 
-            changed?.Invoke(old, activeSettings);
+            changed?.Invoke(old, activeSetting);
 
             InspectorWindow.RepaintAllInspectors();
 #endif

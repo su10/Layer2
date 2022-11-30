@@ -6,9 +6,9 @@ using UnityEditor;
 
 namespace Jagapippi.Layer2
 {
-    internal class EmptyLayerSettings : ILayerSettings
+    internal class EmptyLayerSetting : ILayerSetting
     {
-        public static readonly EmptyLayerSettings instance = new();
+        public static readonly EmptyLayerSetting instance = new();
 
 #if UNITY_EDITOR
         private static readonly UnityEngine.Object PhysicsManager = Unsupported.GetSerializedAssetInterfaceSingleton(nameof(PhysicsManager));
@@ -82,11 +82,11 @@ namespace Jagapippi.Layer2
         }
 #endif
 
-        private EmptyLayerSettings()
+        private EmptyLayerSetting()
         {
         }
 
-        #region ILayerSettings
+        #region ILayerSetting
 
         public string name => "Project Settings";
         public string LayerToName(int layer) => LayerMask.LayerToName(layer);
@@ -94,7 +94,7 @@ namespace Jagapippi.Layer2
         public bool GetCollision(int layer1, int layer2) => (Physics.GetIgnoreLayerCollision(layer1, layer2) == false);
         public bool GetCollision2D(int layer1, int layer2) => (Physics2D.GetIgnoreLayerCollision(layer1, layer2) == false);
 #if UNITY_EDITOR
-        public event Action<ILayerSettings> changedSerializedObject;
+        public event Action<ILayerSetting> changedSerializedObject;
 #endif
 
         #endregion

@@ -61,7 +61,7 @@ namespace Jagapippi.Layer2
                     if (_instance)
                     {
                         _instance.SubscribeChangedEvent();
-                        ApplySettingsAsset();
+                        ApplySettingAsset();
                     }
                 }
             }
@@ -110,7 +110,7 @@ namespace Jagapippi.Layer2
             }
         }
 
-        public static ILayerSettings activeSettings => LayerSettingsSelection.activeSettings;
+        public static ILayerSetting activeSetting => LayerSettingSelection.activeSetting;
 
 #if UNITY_EDITOR
         private bool isInCurrentHierarchy => StageUtility.GetCurrentStageHandle().Contains(this.gameObject);
@@ -127,46 +127,46 @@ namespace Jagapippi.Layer2
             return (this.gameObject.scene == other.gameObject.scene);
         }
 
-        public static void ApplySettings(ILayerSettings settings)
+        public static void ApplySetting(ILayerSetting setting)
         {
-            instance._settingsAsset = settings as LayerSettingsAsset;
+            instance._settingAsset = setting as LayerSettingAsset;
 
-            SelectOrApply(settings);
+            SelectOrApply(setting);
         }
 
-        private static void ApplySettingsAsset()
+        private static void ApplySettingAsset()
         {
             var asset = _instance switch
             {
                 _ when (_instance == null) => null,
-                _ when (_instance._settingsAsset) => _instance._settingsAsset,
-                _ => _instance._defaultSettingsAsset,
+                _ when (_instance._settingAsset) => _instance._settingAsset,
+                _ => _instance._defaultSettingAsset,
             };
 
             SelectOrApply(asset);
         }
 
-        private static void ApplyDefaultSettingsAsset()
+        private static void ApplyDefaultSettingAsset()
         {
-            SelectOrApply(instance ? instance._defaultSettingsAsset : null);
+            SelectOrApply(instance ? instance._defaultSettingAsset : null);
         }
 
-        private static void SelectOrApply(ILayerSettings layerSettings)
+        private static void SelectOrApply(ILayerSetting layerSetting)
         {
 #if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
-                LayerSettingsSelection.Select(layerSettings);
+                LayerSettingSelection.Select(layerSetting);
             }
             else
 #endif
             {
-                LayerSettingsSelection.Apply(layerSettings);
+                LayerSettingSelection.Apply(layerSetting);
             }
         }
 
-        [SerializeField] private LayerSettingsAsset _defaultSettingsAsset;
-        [SerializeField] private LayerSettingsAsset _settingsAsset;
+        [SerializeField] private LayerSettingAsset _defaultSettingAsset;
+        [SerializeField] private LayerSettingAsset _settingAsset;
         [SerializeField] private bool _dontDestroyOnLoad = true;
         [SerializeField] private DestroyDuplicatedInstance _destroyDuplicatedInstance;
         [SerializeField] private bool _suppressDuplicateWarning;
@@ -181,7 +181,7 @@ namespace Jagapippi.Layer2
 
             this.UnsubscribeChangedEvent();
             {
-                ApplySettingsAsset();
+                ApplySettingAsset();
             }
             this.SubscribeChangedEvent();
         }
@@ -212,7 +212,7 @@ namespace Jagapippi.Layer2
             {
                 _instance = this;
 
-                ApplySettingsAsset();
+                ApplySettingAsset();
             }
             else
             {
@@ -241,7 +241,7 @@ namespace Jagapippi.Layer2
                         _instance.gameObject.Destroy();
                         _instance = this;
 
-                        ApplySettingsAsset();
+                        ApplySettingAsset();
 
                         break;
                     }
@@ -277,7 +277,7 @@ namespace Jagapippi.Layer2
 #if UNITY_EDITOR
             this.UnsubscribeChangedEvent();
 #endif
-            if (_instance == this) ApplyDefaultSettingsAsset();
+            if (_instance == this) ApplyDefaultSettingAsset();
         }
 
         void OnDestroy()
@@ -288,23 +288,23 @@ namespace Jagapippi.Layer2
 #if UNITY_EDITOR
         private void SubscribeChangedEvent()
         {
-            LayerSettingsSelection.changed -= this.OnLayerSettingsSelectionChanged;
-            LayerSettingsSelection.changed += this.OnLayerSettingsSelectionChanged;
+            LayerSettingSelection.changed -= this.OnLayerSettingSelectionChanged;
+            LayerSettingSelection.changed += this.OnLayerSettingSelectionChanged;
         }
 
         private void UnsubscribeChangedEvent()
         {
-            LayerSettingsSelection.changed -= this.OnLayerSettingsSelectionChanged;
+            LayerSettingSelection.changed -= this.OnLayerSettingSelectionChanged;
         }
 
-        private void OnLayerSettingsSelectionChanged(ILayerSettings oldSettings, ILayerSettings newSettings)
+        private void OnLayerSettingSelectionChanged(ILayerSetting oldSetting, ILayerSetting newSetting)
         {
             if (this == null) return;
-            if ((ILayerSettings)_settingsAsset == newSettings) return;
-            if (LayerSettingsSelection.activeSettings is not LayerSettingsAsset asset) return;
-            if (_settingsAsset == asset) return;
+            if ((ILayerSetting)_settingAsset == newSetting) return;
+            if (LayerSettingSelection.activeSetting is not LayerSettingAsset asset) return;
+            if (_settingAsset == asset) return;
 
-            _settingsAsset = asset;
+            _settingAsset = asset;
             EditorUtility.SetDirty(this);
         }
 #endif

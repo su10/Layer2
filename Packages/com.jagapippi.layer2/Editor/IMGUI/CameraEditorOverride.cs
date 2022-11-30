@@ -37,7 +37,7 @@ namespace Jagapippi.Layer2.Editor.IMGUI
 
             using (_pool.Get(out var displayedOptions))
             {
-                LayerSettingsSelection.activeSettings.GetNamesNonAlloc(displayedOptions);
+                LayerSettingSelection.activeSetting.GetNamesNonAlloc(displayedOptions);
 
                 var cullingMask = EditorGUILayout.MaskField(MaskFieldLabel, property.intValue, displayedOptions);
 

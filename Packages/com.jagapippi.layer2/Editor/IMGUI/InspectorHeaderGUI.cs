@@ -42,18 +42,18 @@ namespace Jagapippi.Layer2.Editor.IMGUI
                     else
                     {
                         Object target = null;
-                        var currentLayerSettings = LayerSettingsSelection.activeSettings;
+                        var currentLayerSetting = LayerSettingSelection.activeSetting;
 
-                        switch (currentLayerSettings)
+                        switch (currentLayerSetting)
                         {
-                            case EmptyLayerSettings:
+                            case EmptyLayerSetting:
                             {
                                 target = Unsupported.GetSerializedAssetInterfaceSingleton("TagManager");
                                 break;
                             }
                             default:
                             {
-                                if (currentLayerSettings is Object obj) target = obj;
+                                if (currentLayerSetting is Object obj) target = obj;
                                 break;
                             }
                         }

@@ -29,10 +29,10 @@ namespace Jagapippi.Layer2.Editor.IMGUI
         {
             using (_pool.Get(out var displayedOptions))
             {
-                var currentLayerSettings = LayerSettingsSelection.activeSettings;
-                currentLayerSettings.GetNamesWithIndexNonAlloc(displayedOptions);
+                var currentLayerSetting = LayerSettingSelection.activeSetting;
+                currentLayerSetting.GetNamesWithIndexNonAlloc(displayedOptions);
 
-                displayedOptions[^1] = $"Edit {currentLayerSettings.name} ...";
+                displayedOptions[^1] = $"Edit {currentLayerSetting.name} ...";
 
                 using (SetLabelWidth(CalcLabelSize(LabelText).x))
                 {
@@ -42,11 +42,11 @@ namespace Jagapippi.Layer2.Editor.IMGUI
             }
         }
 
-        private static void GetNamesWithIndexNonAlloc(this ILayerSettings settings, IList<string> list)
+        private static void GetNamesWithIndexNonAlloc(this ILayerSetting setting, IList<string> list)
         {
             for (var i = 0; i < Layer.MaxCount; i++)
             {
-                var layerName = settings.LayerToName(i);
+                var layerName = setting.LayerToName(i);
 
                 if (string.IsNullOrEmpty(layerName) || string.IsNullOrWhiteSpace(layerName))
                 {

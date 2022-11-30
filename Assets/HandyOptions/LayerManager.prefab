@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df1a6107d67a41dbb0d1b43feb6c587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultSettingsAsset: {fileID: 11400000, guid: d252d9b3b49404f65949bf5d09b25ee4, type: 2}
-  _settingsAsset: {fileID: 0}
+  _defaultSettingAsset: {fileID: 11400000, guid: d252d9b3b49404f65949bf5d09b25ee4, type: 2}
+  _settingAsset: {fileID: 0}
   _dontDestroyOnLoad: 1
   _destroyDuplicatedInstance: 0
   _suppressDuplicateWarning: 0
