@@ -17,8 +17,12 @@
   ],
   "samples": [
     {
-      "displayName": "Handy Options",
-      "path": "HandyOptions~"
+      "displayName": "Create Asset Menu",
+      "path": "Samples~/CreateAssetMenu"
+    },
+    {
+      "displayName": "LayerManager",
+      "path": "Samples~/LayerManager"
     }
   ],
   "license": "MIT License"
