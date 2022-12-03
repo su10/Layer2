@@ -1,0 +1,28 @@
+#layer-collision-matrix, #horizontal-group {
+    margin: 0;
+    padding: 0;
+}
+
+#left-labels Label {
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+
+#layer-collision-matrix #top-labels Label {
+    margin: 0.5px 2px 0.5px 0.5px;
+    padding: 0;
+}
+
+CollisionMatrix {
+    flex-shrink: 0;
+}
+
+CollisionMatrixRowToggles {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+CollisionMatrix Toggle {
+    margin: 1px;
+    padding: 0;
+}

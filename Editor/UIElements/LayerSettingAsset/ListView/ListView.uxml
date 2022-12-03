@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" xmlns:l2e="Jagapippi.Layer2.Editor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.jagapippi.layer2/Editor/UI/LayerSettingAsset/ListView/ListView.uss?fileID=7433441132597879392&amp;guid=28e66a6a4fb5e418093dcb3d51900a29&amp;type=3#ListView" />
+    <ui:DropdownField label="Physics" choices="3D,2D" name="physics-dropdown-field" view-data-key="physics-dropdown-field" />
+    <l2e:FixedLayers name="fixed-layers" binding-path="_layers" />
+    <ui:ListView name="layer-list-view" reorderable="true" show-bound-collection-size="false" reorder-mode="Animated" show-alternating-row-backgrounds="All" fixed-item-height="20" />
+</ui:UXML>

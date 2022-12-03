@@ -1,0 +1,8 @@
+#list-view-foldout #unity-content {
+    margin-left: 0;
+}
+
+#save-button {
+    margin-top: 15px;
+    padding: 0;
+}
