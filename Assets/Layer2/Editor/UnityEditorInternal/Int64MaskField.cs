@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor.UIElements;
@@ -85,3 +86,4 @@ namespace Jagapippi.Layer2.Editor.UnityEditorInternal
         }
     }
 }
+#endif
