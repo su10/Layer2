@@ -2,6 +2,7 @@
   "name": "com.jagapippi.layer2",
   "version": "0.1.0",
   "displayName": "Layer2",
+  "description": "Enable unlimited use of layers for Unity.",
   "unity": "2021.3",
   "author": {
     "name": "su10",
