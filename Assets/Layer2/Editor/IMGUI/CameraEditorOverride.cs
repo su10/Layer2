@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !LAYER2_DISABLE_CAMERA_EDITOR_OVERRIDE
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
