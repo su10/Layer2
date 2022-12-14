@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Jagapippi.Layer2
+namespace Jagapippi.Layer2.Samples
 {
     [DisallowMultipleComponent]
 #if UNITY_EDITOR
