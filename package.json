@@ -26,5 +26,6 @@
       "path": "Samples~/LayerManager"
     }
   ],
-  "license": "MIT License"
+  "license": "MIT",
+  "licensesUrl": "https://github.com/su10/Layer2/blob/main/LICENSE.md"
 }
